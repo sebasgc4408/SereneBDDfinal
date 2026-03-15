@@ -89,15 +89,17 @@ const Dashboard = () => {
           </div>
 
           {/* Side Column: Summary / Actions */}
-          <div className="space-y-12">
-            <div className="space-y-6">
-              <h2 className="text-[19px] font-medium tracking-wide text-[#292524] mb-4 px-2">Quick Actions</h2>
-              <div className="bg-[#F8F9F8] rounded-3xl p-8 border border-[#EAECEB]">
-                <h3 className="text-[15px] font-medium text-[#292524] mb-3">Share Booking Link</h3>
-                <p className="text-[13px] text-[#78716C] mb-6 leading-relaxed">
-                  Your calendar is synced and ready. Patients can book available slots securely without seeing your private details.
-                </p>
-                <button className="w-full flex items-center justify-center gap-2 h-12 rounded-xl bg-white border border-[#D9DDDB] text-sm font-medium text-[#292524] hover:border-[#788B80] hover:text-[#788B80] transition-all shadow-sm active:scale-[0.98]">
+          <div className="space-y-10">
+            <div className="space-y-4">
+              <h2 className="text-[17px] font-medium tracking-wide text-[#292524] px-1 mb-2">Quick Actions</h2>
+              <div className="bg-white rounded-[24px] shadow-[0_4px_24px_rgb(0,0,0,0.02)] border border-[#F2F2F0] p-6 flex flex-col gap-4">
+                <div>
+                  <h3 className="text-[15px] font-medium text-[#292524] mb-2">Share Booking Link</h3>
+                  <p className="text-[13px] text-[#78716C] leading-relaxed">
+                    Your calendar is synced. Patients can book available slots securely.
+                  </p>
+                </div>
+                <button className="w-full flex items-center justify-center gap-2 py-3 rounded-xl border border-[#F2F2F0] bg-white text-[13px] font-medium text-[#292524] hover:border-[#788B80] hover:text-[#788B80] hover:bg-[#FAFAF9] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#788B80] focus-visible:ring-offset-1 active:scale-[0.98]">
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
                   </svg>
