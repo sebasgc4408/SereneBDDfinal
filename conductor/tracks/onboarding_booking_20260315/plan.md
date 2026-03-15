@@ -22,7 +22,7 @@ Build the technical foundation with Next.js, Clerk, and Convex.
 
 ---
 
-## Phase 2: Secure Google Calendar Integration
+## Phase 2: Secure Google Calendar Integration [checkpoint: d4e5c85]
 Implement the OAuth flow and data synchronization with Google Calendar.
 
 - [x] **Task 4: Google OAuth Flow via Clerk** 886255a
@@ -31,14 +31,14 @@ Implement the OAuth flow and data synchronization with Google Calendar.
 - [x] **Task 5: Availability Synchronization Logic** 8ecbe92
     - Implement Convex functions to fetch and cache Google Calendar events.
     - Build a background worker/service to keep availability updated in real-time.
-- [ ] **Task: Conductor - User Manual Verification 'Phase 2: Secure Google Calendar Integration' (Protocol in workflow.md)**
+- [x] **Task: Conductor - User Manual Verification 'Phase 2: Secure Google Calendar Integration' (Protocol in workflow.md)** d4e5c85
 
 ---
 
 ## Phase 3: Serene Operational Dashboard
 Create the main dashboard UI and integration status monitoring.
 
-- [ ] **Task 6: Build the Dashboard Layout**
+- [~] **Task 6: Build the Dashboard Layout**
     - Implement the "Serene" layout with generous white space and soft depth.
     - Create the "Upcoming Appointments" card with a refined typographic hierarchy.
 - [ ] **Task 7: Integration Status & Settings**
