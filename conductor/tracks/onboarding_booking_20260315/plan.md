@@ -5,7 +5,7 @@ This track implements the foundational psychologist onboarding, Google Calendar 
 
 ---
 
-## Phase 1: Project Scaffolding & Infrastructure
+## Phase 1: Project Scaffolding & Infrastructure [checkpoint: cdf750a]
 Build the technical foundation with Next.js, Clerk, and Convex.
 
 - [x] **Task 1: Initialize Project Structure** f0e5c2b
@@ -18,14 +18,14 @@ Build the technical foundation with Next.js, Clerk, and Convex.
 - [x] **Task 3: Setup Clerk Authentication** f57e3a1
     - Configure Clerk for passwordless (email-link) authentication.
     - Implement the initial "Welcome" screen and psychologist sign-in flow.
-- [ ] **Task: Conductor - User Manual Verification 'Phase 1: Project Scaffolding & Infrastructure' (Protocol in workflow.md)**
+- [x] **Task: Conductor - User Manual Verification 'Phase 1: Project Scaffolding & Infrastructure' (Protocol in workflow.md)** cdf750a
 
 ---
 
 ## Phase 2: Secure Google Calendar Integration
 Implement the OAuth flow and data synchronization with Google Calendar.
 
-- [ ] **Task 4: Google OAuth Flow via Clerk**
+- [~] **Task 4: Google OAuth Flow via Clerk**
     - Configure Google Cloud Console and Clerk for Google Calendar permissions.
     - Implement the "Meditative Onboarding" connection button with transparent permission messaging.
 - [ ] **Task 5: Availability Synchronization Logic**
