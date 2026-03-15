@@ -28,7 +28,7 @@ Implement the OAuth flow and data synchronization with Google Calendar.
 - [x] **Task 4: Google OAuth Flow via Clerk** 886255a
     - Configure Google Cloud Console and Clerk for Google Calendar permissions.
     - Implement the "Meditative Onboarding" connection button with transparent permission messaging.
-- [ ] **Task 5: Availability Synchronization Logic**
+- [~] **Task 5: Availability Synchronization Logic**
     - Implement Convex functions to fetch and cache Google Calendar events.
     - Build a background worker/service to keep availability updated in real-time.
 - [ ] **Task: Conductor - User Manual Verification 'Phase 2: Secure Google Calendar Integration' (Protocol in workflow.md)**
