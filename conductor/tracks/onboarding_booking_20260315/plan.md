@@ -54,7 +54,7 @@ Develop the patient-facing booking page and confirmation logic.
 - [x] **Task 8: Public Booking Page UI** c57b9b3
     - Design and build the distraction-free booking page for patients.
     - Implement the real-time slot selector with "Immediate Value Feedback."
-- [ ] **Task 9: Patient Intake & Booking Logic**
+- [~] **Task 9: Patient Intake & Booking Logic**
     - Create the high-clarity intake form for essential patient data.
     - Implement the Convex mutation to create a new appointment and sync it back to Google Calendar.
 - [ ] **Task 10: Confirmation & Closure**

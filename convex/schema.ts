@@ -16,4 +16,15 @@ export default defineSchema({
     startTime: v.number(), // Unix timestamp
     endTime: v.number(), // Unix timestamp
   }).index('by_user', ['userId']).index('by_user_and_time', ['userId', 'startTime']),
+
+  appointments: defineTable({
+    userId: v.id('users'),
+    patientName: v.string(),
+    patientEmail: v.string(),
+    patientPhone: v.optional(v.string()),
+    startTime: v.number(),
+    endTime: v.number(),
+    status: v.string(), // "Confirmed", "Cancelled"
+    googleEventId: v.optional(v.string()), // Null until successfully synced to Google
+  }).index('by_user', ['userId']),
 })
