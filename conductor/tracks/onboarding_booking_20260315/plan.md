@@ -38,7 +38,7 @@ Implement the OAuth flow and data synchronization with Google Calendar.
 ## Phase 3: Serene Operational Dashboard
 Create the main dashboard UI and integration status monitoring.
 
-- [~] **Task 6: Build the Dashboard Layout**
+- [x] **Task 6: Build the Dashboard Layout** c3cb9e2
     - Implement the "Serene" layout with generous white space and soft depth.
     - Create the "Upcoming Appointments" card with a refined typographic hierarchy.
 - [ ] **Task 7: Integration Status & Settings**
