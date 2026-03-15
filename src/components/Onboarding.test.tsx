@@ -19,10 +19,10 @@ describe('Onboarding Component', () => {
     render(<Onboarding />)
     
     // Debería explicar claramente por qué necesitamos acceso
-    expect(screen.getByText(/We need access to your calendar/i)).toBeInTheDocument()
+    expect(screen.getByText(/Serene needs read-only access/i)).toBeInTheDocument()
     
     // Debería haber un botón claro para conectar
-    const connectButton = screen.getByRole('button', { name: /Connect Google Calendar/i })
+    const connectButton = screen.getByRole('button', { name: /Authenticate Google/i })
     expect(connectButton).toBeInTheDocument()
   })
 })
