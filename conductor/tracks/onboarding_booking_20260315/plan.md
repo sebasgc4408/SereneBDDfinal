@@ -41,7 +41,7 @@ Create the main dashboard UI and integration status monitoring.
 - [x] **Task 6: Build the Dashboard Layout** c3cb9e2
     - Implement the "Serene" layout with generous white space and soft depth.
     - Create the "Upcoming Appointments" card with a refined typographic hierarchy.
-- [~] **Task 7: Integration Status & Settings**
+- [x] **Task 7: Integration Status & Settings** 40355be
     - Build the status monitoring component showing "Connected" status for Google Calendar.
     - Implement "Permission Clarity" cards to explain what is currently being synced.
 - [ ] **Task: Conductor - User Manual Verification 'Phase 3: Serene Operational Dashboard' (Protocol in workflow.md)**
