@@ -34,7 +34,7 @@ const Dashboard = () => {
             Calendar Synced
           </div>
           <div className="w-px h-5 bg-[#EAECEB] hidden md:block"></div>
-          <UserButton afterSignOutUrl="/" />
+          <UserButton />
         </div>
       </header>
 
