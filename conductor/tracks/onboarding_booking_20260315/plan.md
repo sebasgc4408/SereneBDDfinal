@@ -12,7 +12,7 @@ Build the technical foundation with Next.js, Clerk, and Convex.
     - Scaffold Next.js application with Tailwind CSS and TypeScript.
     - Set up initial Vanilla CSS modules for core "Premium Clinical" components.
     - Install and configure Framer Motion and Lucide React.
-- [ ] **Task 2: Setup Convex Backend**
+- [~] **Task 2: Setup Convex Backend**
     - Initialize Convex project and configure schema for users and integration settings.
     - Implement basic data fetching/writing functions.
 - [ ] **Task 3: Setup Clerk Authentication**
