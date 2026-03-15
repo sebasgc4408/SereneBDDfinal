@@ -64,13 +64,13 @@ Develop the patient-facing booking page and confirmation logic.
 
 ---
 
-## Phase 5: Final Polish & Verification
+## Phase 5: Final Polish & Verification [checkpoint: 5a4f78e]
 Apply visual refinements and ensure end-to-end quality.
 
 - [x] **Task 11: Refined Motion & Typography Polish** 1e57c6b
     - Finalize "Tactile Premium Feel" with soft transitions and impeccable tracking.
     - Audit all text for "Minimalist & Quiet" voice and tone.
-- [~] **Task 12: End-to-End Verification**
+- [x] **Task 12: End-to-End Verification** bc83a8b
     - Perform a full walkthrough from psychologist registration to successful patient booking.
     - Verify responsiveness and accessibility compliance across mobile and desktop.
-- [ ] **Task: Conductor - User Manual Verification 'Phase 5: Final Polish & Verification' (Protocol in workflow.md)**
+- [x] **Task: Conductor - User Manual Verification 'Phase 5: Final Polish & Verification' (Protocol in workflow.md)** 5a4f78e
