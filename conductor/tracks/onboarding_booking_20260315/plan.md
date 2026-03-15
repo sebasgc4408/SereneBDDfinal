@@ -35,7 +35,7 @@ Implement the OAuth flow and data synchronization with Google Calendar.
 
 ---
 
-## Phase 3: Serene Operational Dashboard
+## Phase 3: Serene Operational Dashboard [checkpoint: 4b6749c]
 Create the main dashboard UI and integration status monitoring.
 
 - [x] **Task 6: Build the Dashboard Layout** c3cb9e2
@@ -44,14 +44,14 @@ Create the main dashboard UI and integration status monitoring.
 - [x] **Task 7: Integration Status & Settings** 40355be
     - Build the status monitoring component showing "Connected" status for Google Calendar.
     - Implement "Permission Clarity" cards to explain what is currently being synced.
-- [ ] **Task: Conductor - User Manual Verification 'Phase 3: Serene Operational Dashboard' (Protocol in workflow.md)**
+- [x] **Task: Conductor - User Manual Verification 'Phase 3: Serene Operational Dashboard' (Protocol in workflow.md)** 4b6749c
 
 ---
 
 ## Phase 4: Integrated Calendar Booking (Public Flow)
 Develop the patient-facing booking page and confirmation logic.
 
-- [ ] **Task 8: Public Booking Page UI**
+- [~] **Task 8: Public Booking Page UI**
     - Design and build the distraction-free booking page for patients.
     - Implement the real-time slot selector with "Immediate Value Feedback."
 - [ ] **Task 9: Patient Intake & Booking Logic**
