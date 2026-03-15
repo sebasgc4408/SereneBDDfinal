@@ -1,4 +1,4 @@
-# Product Guidelines: [Name TBD]
+# Product Guidelines: Serene
 
 ## 1. Voice and Tone
 ### 1.1 Core Principles
