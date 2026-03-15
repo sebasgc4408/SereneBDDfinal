@@ -51,7 +51,7 @@ Create the main dashboard UI and integration status monitoring.
 ## Phase 4: Integrated Calendar Booking (Public Flow)
 Develop the patient-facing booking page and confirmation logic.
 
-- [~] **Task 8: Public Booking Page UI**
+- [x] **Task 8: Public Booking Page UI** c57b9b3
     - Design and build the distraction-free booking page for patients.
     - Implement the real-time slot selector with "Immediate Value Feedback."
 - [ ] **Task 9: Patient Intake & Booking Logic**
