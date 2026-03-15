@@ -8,10 +8,10 @@ describe('IntegrationStatus Component', () => {
     
     // Should show Google Calendar is connected
     expect(screen.getByText(/Google Calendar/i)).toBeInTheDocument()
-    expect(screen.getByText(/Connected/i)).toBeInTheDocument()
+    expect(screen.getByText(/Active/i)).toBeInTheDocument()
     
-    // Should explain the active permissions
-    expect(screen.getByText(/Permission Clarity/i)).toBeInTheDocument()
+    // Should explain the active permissions in the collapsible section
+    expect(screen.getByText(/Privacy & Permissions/i)).toBeInTheDocument()
     expect(screen.getByText(/Read-only access/i)).toBeInTheDocument()
   })
 })

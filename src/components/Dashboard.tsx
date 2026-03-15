@@ -26,14 +26,14 @@ const Dashboard = () => {
            <div className="h-5 w-5 rounded-full bg-[#788B80]" />
            <span className="text-lg font-medium tracking-wide text-[#292524]">Serene</span>
         </div>
-        <div className="flex items-center gap-4">
-          <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#F2F4F3] text-xs font-medium text-[#57534E]">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#788B80] opacity-40"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#788B80]"></span>
-            </span>
-            Calendar Sync: Active
+        <div className="flex items-center gap-5">
+          <div className="hidden md:flex items-center gap-2 text-[13px] font-medium text-[#78716C]">
+            <svg className="w-4 h-4 text-[#788B80]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            </svg>
+            Calendar Synced
           </div>
+          <div className="w-px h-5 bg-[#EAECEB] hidden md:block"></div>
           <UserButton afterSignOutUrl="/" />
         </div>
       </header>
