@@ -25,7 +25,7 @@ Build the technical foundation with Next.js, Clerk, and Convex.
 ## Phase 2: Secure Google Calendar Integration
 Implement the OAuth flow and data synchronization with Google Calendar.
 
-- [~] **Task 4: Google OAuth Flow via Clerk**
+- [x] **Task 4: Google OAuth Flow via Clerk** 886255a
     - Configure Google Cloud Console and Clerk for Google Calendar permissions.
     - Implement the "Meditative Onboarding" connection button with transparent permission messaging.
 - [ ] **Task 5: Availability Synchronization Logic**
