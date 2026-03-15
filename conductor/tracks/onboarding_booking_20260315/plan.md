@@ -8,7 +8,7 @@ This track implements the foundational psychologist onboarding, Google Calendar 
 ## Phase 1: Project Scaffolding & Infrastructure
 Build the technical foundation with Next.js, Clerk, and Convex.
 
-- [ ] **Task 1: Initialize Project Structure**
+- [~] **Task 1: Initialize Project Structure**
     - Scaffold Next.js application with Tailwind CSS and TypeScript.
     - Set up initial Vanilla CSS modules for core "Premium Clinical" components.
     - Install and configure Framer Motion and Lucide React.
