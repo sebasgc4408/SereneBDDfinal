@@ -38,3 +38,6 @@ yarn-error.log*
 
 # convex
 /convex/_generated
+
+# clerk configuration (can include secrets)
+/.clerk/

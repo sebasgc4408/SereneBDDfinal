@@ -1,4 +1,4 @@
-# Tech Stack: Psyco
+# Tech Stack: Serene
 
 ## Frontend
 - **Framework:** Next.js (App Router)

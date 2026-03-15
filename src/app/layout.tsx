@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Psyco - Meditative Clinic Management",
+  title: "Serene - Meditative Clinic Management",
   description: "A serene, distraction-free platform for psychologists.",
 };
 

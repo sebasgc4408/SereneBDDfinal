@@ -9,6 +9,6 @@ vi.mock('@clerk/nextjs', () => ({
 describe('Welcome Component', () => {
   it('should render the welcome message', () => {
     render(<Welcome />)
-    expect(screen.getByText(/Welcome to Psyco/i)).toBeInTheDocument()
+    expect(screen.getByText(/Welcome back/i)).toBeInTheDocument()
   })
 })
