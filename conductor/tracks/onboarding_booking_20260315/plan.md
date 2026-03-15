@@ -15,7 +15,7 @@ Build the technical foundation with Next.js, Clerk, and Convex.
 - [x] **Task 2: Setup Convex Backend** 87eeeb3
     - Initialize Convex project and configure schema for users and integration settings.
     - Implement basic data fetching/writing functions.
-- [ ] **Task 3: Setup Clerk Authentication**
+- [~] **Task 3: Setup Clerk Authentication**
     - Configure Clerk for passwordless (email-link) authentication.
     - Implement the initial "Welcome" screen and psychologist sign-in flow.
 - [ ] **Task: Conductor - User Manual Verification 'Phase 1: Project Scaffolding & Infrastructure' (Protocol in workflow.md)**
