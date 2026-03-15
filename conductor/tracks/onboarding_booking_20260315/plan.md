@@ -48,7 +48,7 @@ Create the main dashboard UI and integration status monitoring.
 
 ---
 
-## Phase 4: Integrated Calendar Booking (Public Flow)
+## Phase 4: Integrated Calendar Booking (Public Flow) [checkpoint: d1e9d10]
 Develop the patient-facing booking page and confirmation logic.
 
 - [x] **Task 8: Public Booking Page UI** c57b9b3
@@ -57,17 +57,17 @@ Develop the patient-facing booking page and confirmation logic.
 - [x] **Task 9: Patient Intake & Booking Logic** ed5a850
     - Create the high-clarity intake form for essential patient data.
     - Implement the Convex mutation to create a new appointment and sync it back to Google Calendar.
-- [~] **Task 10: Confirmation & Closure**
+- [x] **Task 10: Confirmation & Closure** 306c55d
     - Build the "Instant Confirmation" view with a reassuring summary.
     - Implement initial email/system notification logic for new bookings.
-- [ ] **Task: Conductor - User Manual Verification 'Phase 4: Integrated Calendar Booking (Public Flow)' (Protocol in workflow.md)**
+- [x] **Task: Conductor - User Manual Verification 'Phase 4: Integrated Calendar Booking (Public Flow)' (Protocol in workflow.md)** d1e9d10
 
 ---
 
 ## Phase 5: Final Polish & Verification
 Apply visual refinements and ensure end-to-end quality.
 
-- [ ] **Task 11: Refined Motion & Typography Polish**
+- [~] **Task 11: Refined Motion & Typography Polish**
     - Finalize "Tactile Premium Feel" with soft transitions and impeccable tracking.
     - Audit all text for "Minimalist & Quiet" voice and tone.
 - [ ] **Task 12: End-to-End Verification**
