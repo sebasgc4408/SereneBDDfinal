@@ -1,0 +1,8 @@
+{
+  "track_id": "onboarding_booking_20260315",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-03-15T10:00:00Z",
+  "updated_at": "2026-03-15T10:00:00Z",
+  "description": "Build the core \"Meditative Onboarding\" and \"Integrated Calendar Booking\" flow, including secure Google Calendar connection via Clerk/Convex, a serene dashboard, and a beautiful, real-time patient booking page."
+}
