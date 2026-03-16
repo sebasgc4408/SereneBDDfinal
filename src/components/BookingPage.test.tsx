@@ -1,19 +1,35 @@
 import { render, screen } from '@testing-library/react'
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 import BookingPage from './BookingPage'
 
+const mockUseQuery = vi.fn()
+
+vi.mock('convex/react', () => ({
+  useQuery: (...args: unknown[]) => mockUseQuery(...args),
+  useMutation: () => vi.fn(),
+}))
+
 describe('BookingPage Component', () => {
+  beforeEach(() => {
+    mockUseQuery.mockReset()
+    mockUseQuery.mockImplementation((_ref: unknown, args: unknown) => {
+      if (args === 'skip') return undefined
+      if (typeof args === 'object' && args && 'slug' in (args as Record<string, unknown>)) {
+        return {
+          _id: 'user_1',
+          name: 'Dr. Sarah',
+          timezone: 'America/Bogota',
+        }
+      }
+      return []
+    })
+  })
+
   it('should render the distraction-free booking interface', () => {
-    render(<BookingPage psychologistName="Dr. Sarah" />)
-    
-    // Debería mostrar claramente a quién están agendando
+    render(<BookingPage slug="dr-sarah" />)
+
     expect(screen.getByText(/Book a session with Dr. Sarah/i)).toBeInTheDocument()
-    
-    // Debería haber una sección clara para seleccionar la fecha/hora
     expect(screen.getByRole('heading', { name: /Select a date/i })).toBeInTheDocument()
-    
-    // No debería haber distracciones (ej. sin menús de navegación complejos)
-    // Buscamos un texto de apoyo que transmita calma
-    expect(screen.getByText(/Take your time/i)).toBeInTheDocument()
+    expect(screen.getByText(/All slots shown are in/i)).toBeInTheDocument()
   })
 })

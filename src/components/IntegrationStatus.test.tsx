@@ -1,36 +1,37 @@
-import { render, screen } from '@testing-library/react'
-import { describe, it, expect } from 'vitest'
+import { render, screen, fireEvent } from '@testing-library/react'
+import { describe, it, expect, vi } from 'vitest'
 import IntegrationStatus from './IntegrationStatus'
 
 describe('IntegrationStatus Component', () => {
-  it('should render the active integration and permission clarity cards', () => {
+  it('should render integrations with disconnected defaults', () => {
     render(<IntegrationStatus />)
 
     expect(screen.getByText(/Google Calendar/i)).toBeInTheDocument()
-    expect(screen.getByText(/Active/i)).toBeInTheDocument()
+    expect(screen.getAllByText(/Not Connected/i)).toHaveLength(2)
     expect(screen.getByText(/Privacy & Permissions/i)).toBeInTheDocument()
-    expect(screen.getByText(/Read-only access/i)).toBeInTheDocument()
   })
 
-  it('should render the WhatsApp integration card', () => {
+  it('should show WhatsApp as active and allow disconnect action', () => {
+    const onDisconnectWhatsApp = vi.fn()
+    render(
+      <IntegrationStatus
+        calendarConnected
+        whatsappConnected
+        onDisconnectWhatsApp={onDisconnectWhatsApp}
+      />
+    )
+
+    const button = screen.getByRole('button', { name: /Disconnect WhatsApp/i })
+    fireEvent.click(button)
+    expect(onDisconnectWhatsApp).toHaveBeenCalledTimes(1)
+  })
+
+  it('should reveal privacy copy when accordion is opened', () => {
     render(<IntegrationStatus />)
+    fireEvent.click(screen.getByRole('button', { name: /WhatsApp Privacy/i }))
 
-    expect(screen.getByText(/WhatsApp Reminders/i)).toBeInTheDocument()
-    expect(screen.getByText(/Not Connected/i)).toBeInTheDocument()
-  })
-
-  it('should show WhatsApp as active when connected', () => {
-    render(<IntegrationStatus whatsappConnected={true} />)
-
-    expect(screen.getByText(/WhatsApp Reminders/i)).toBeInTheDocument()
-    expect(screen.getByText(/Disconnect WhatsApp/i)).toBeInTheDocument()
-  })
-
-  it('should render WhatsApp privacy section', () => {
-    render(<IntegrationStatus />)
-
-    expect(screen.getByText(/WhatsApp Privacy/i)).toBeInTheDocument()
-    expect(screen.getByText(/We never send promotional messages/i)).toBeInTheDocument()
-    expect(screen.getByText(/Meta's encrypted infrastructure/i)).toBeInTheDocument()
+    expect(
+      screen.getByText(/only send clinical reminders and confirmations/i)
+    ).toBeInTheDocument()
   })
 })

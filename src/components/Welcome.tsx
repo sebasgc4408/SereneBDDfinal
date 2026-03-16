@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+import Link from 'next/link'
 import { SignInButton } from '@clerk/nextjs'
 import { motion } from 'framer-motion'
 
@@ -13,7 +14,7 @@ const Welcome = () => {
            <div className="h-6 w-6 rounded-full bg-[#788B80]" />
            <span className="text-xl font-medium tracking-wide text-[#292524]">Serene</span>
         </div>
-        
+
         <div className="max-w-md">
           <h2 className="text-4xl font-light leading-snug tracking-tight text-[#292524] mb-6">
             A quiet space to manage your practice.
@@ -30,7 +31,7 @@ const Welcome = () => {
 
       {/* Structural Right Panel - The Functional Area */}
       <div className="flex w-full lg:w-1/2 flex-col items-center justify-center p-8 lg:p-24">
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
@@ -50,20 +51,36 @@ const Welcome = () => {
               Log in or create an account to access your workspace.
             </p>
           </div>
-          
+
           <div className="space-y-6">
             <SignInButton mode="modal">
               <button className="group relative flex h-[52px] w-full items-center justify-center overflow-hidden rounded-xl bg-[#292524] px-8 text-[15px] font-medium tracking-wide text-white transition-all duration-300 ease-out hover:bg-[#1C1917] hover:shadow-[0_8px_20px_rgb(0,0,0,0.12)] hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]">
                 <span>Continue with Email</span>
               </button>
             </SignInButton>
-            
+
             <p className="text-center text-[13px] text-[#A8A29E] font-light">
               By continuing, you securely authenticate via Clerk.
             </p>
           </div>
-          
-          <div className="mt-12 pt-8 border-t border-[#EAECEB] flex items-center justify-start gap-2 text-[13px] text-[#78716C]">
+
+          {/* Navigation Links */}
+          <div className="mt-10 pt-8 border-t border-[#EAECEB] space-y-4">
+            <Link
+              href="/pricing"
+              className="flex items-center justify-center h-[48px] w-full rounded-xl border border-[#EAECEB] text-[15px] font-medium text-[#57534E] hover:border-[#788B80] hover:text-[#292524] hover:bg-[#FAFAF9] transition-all"
+            >
+              View Pricing
+            </Link>
+            <Link
+              href="/book"
+              className="flex items-center justify-center h-[48px] w-full rounded-xl border border-[#EAECEB] text-[15px] font-medium text-[#57534E] hover:border-[#788B80] hover:text-[#292524] hover:bg-[#FAFAF9] transition-all"
+            >
+              Book a Session
+            </Link>
+          </div>
+
+          <div className="mt-8 pt-8 border-t border-[#EAECEB] flex items-center justify-start gap-2 text-[13px] text-[#78716C]">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
             </svg>

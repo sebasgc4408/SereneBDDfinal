@@ -1,111 +1,382 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { useUser } from '@clerk/nextjs'
 import { motion } from 'framer-motion'
+import { useMutation, useQuery } from 'convex/react'
+import { api } from '../../convex/_generated/api'
+import { useStoreUser } from '@/hooks/useStoreUser'
+
+type OnboardingStep = 'calendar' | 'schedule' | 'ready'
+
+const weekdays = [
+  { value: 1, label: 'Mon' },
+  { value: 2, label: 'Tue' },
+  { value: 3, label: 'Wed' },
+  { value: 4, label: 'Thu' },
+  { value: 5, label: 'Fri' },
+  { value: 6, label: 'Sat' },
+  { value: 0, label: 'Sun' },
+]
+
+function createSlugBase(value: string) {
+  return value
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9\s-]/g, '')
+    .trim()
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+}
 
 const Onboarding = () => {
+  const router = useRouter()
   const { user, isLoaded } = useUser()
+  const convexUser = useStoreUser()
+  const updateUser = useMutation(api.users.updateUser)
+  const createAvailability = useMutation(api.availability.createAvailability)
+
+  const availability = useQuery(
+    api.availability.getAvailability,
+    convexUser?._id ? { psychologistId: convexUser._id } : 'skip'
+  )
+
+  const [onboardingStep, setOnboardingStep] = useState<OnboardingStep>('calendar')
+  const [isSavingSchedule, setIsSavingSchedule] = useState(false)
+  const [saveError, setSaveError] = useState<string | null>(null)
+  const [justCompletedOnboarding, setJustCompletedOnboarding] = useState(false)
+  const syncRequested = useRef(false)
+  const statusPatched = useRef(false)
+
+  const [schedule, setSchedule] = useState({
+    days: [1, 2, 3, 4, 5],
+    startTime: '09:00',
+    endTime: '17:00',
+    slotDuration: 50,
+    breakTime: 10,
+  })
+
+  const hasGoogleConnected = useMemo(() => {
+    return Boolean(
+      user?.externalAccounts?.some(
+        (account) => String(account.provider).toLowerCase().includes('google')
+      )
+    )
+  }, [user?.externalAccounts])
+
+  const hasSchedule = (availability?.length ?? 0) > 0
+  const hasPublicSlug = Boolean(convexUser?.publicSlug)
+  const isFullyOnboarded =
+    convexUser?.integrationStatus === 'Connected' && hasSchedule && hasPublicSlug
+
+  useEffect(() => {
+    if (!convexUser?._id || !hasGoogleConnected || statusPatched.current) return
+    if (convexUser.integrationStatus === 'Connected') return
+    statusPatched.current = true
+    void updateUser({
+      userId: convexUser._id,
+      integrationStatus: 'Connected',
+    })
+  }, [convexUser?._id, convexUser?.integrationStatus, hasGoogleConnected, updateUser])
+
+  useEffect(() => {
+    if (!convexUser || availability === undefined) return
+    if (isFullyOnboarded) {
+      if (!justCompletedOnboarding) {
+        router.replace('/dashboard')
+      } else {
+        setOnboardingStep('ready')
+      }
+      return
+    }
+
+    if (convexUser.integrationStatus === 'Connected') {
+      setOnboardingStep('schedule')
+      return
+    }
+    setOnboardingStep('calendar')
+  }, [
+    convexUser,
+    availability,
+    isFullyOnboarded,
+    justCompletedOnboarding,
+    router,
+  ])
 
   const handleConnect = async () => {
     if (!user) return
     try {
       await user.createExternalAccount({
         strategy: 'oauth_google',
-        redirectUrl: '/dashboard', 
+        redirectUrl: '/onboarding',
       })
     } catch (err) {
-      console.error("Failed to connect Google Calendar", err)
+      console.error('Failed to connect Google Calendar', err)
+    }
+  }
+
+  const toggleDay = (day: number) => {
+    setSchedule((previous) => {
+      const isSelected = previous.days.includes(day)
+      const nextDays = isSelected
+        ? previous.days.filter((item) => item !== day)
+        : [...previous.days, day].sort((a, b) => a - b)
+      return { ...previous, days: nextDays }
+    })
+  }
+
+  const handleSaveSchedule = async () => {
+    if (!convexUser?._id) return
+    if (schedule.days.length === 0) {
+      setSaveError('Selecciona al menos un día de atención.')
+      return
+    }
+    if (schedule.startTime >= schedule.endTime) {
+      setSaveError('La hora de inicio debe ser menor que la hora de fin.')
+      return
+    }
+
+    setSaveError(null)
+    setIsSavingSchedule(true)
+    try {
+      const detectedTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone
+      const slugBase = createSlugBase(
+        convexUser.name ?? user?.fullName ?? user?.firstName ?? convexUser.email
+      )
+
+      await updateUser({
+        userId: convexUser._id,
+        timezone: detectedTimezone,
+        publicSlug: slugBase || convexUser._id,
+        integrationStatus: 'Connected',
+      })
+
+      const existingDays = new Set((availability ?? []).map((item) => item.dayOfWeek))
+
+      for (const day of schedule.days) {
+        if (!existingDays.has(day)) {
+          await createAvailability({
+            psychologistId: convexUser._id,
+            dayOfWeek: day,
+            startTime: schedule.startTime,
+            endTime: schedule.endTime,
+            slotDurationMinutes: schedule.slotDuration,
+            breakMinutes: schedule.breakTime,
+          })
+        }
+      }
+
+      if (!syncRequested.current) {
+        syncRequested.current = true
+        await fetch('/api/calendar-sync', { method: 'POST' })
+      }
+
+      setJustCompletedOnboarding(true)
+      setOnboardingStep('ready')
+    } catch (error) {
+      setSaveError(
+        error instanceof Error
+          ? error.message
+          : 'No se pudo guardar tu configuración.'
+      )
+    } finally {
+      setIsSavingSchedule(false)
     }
   }
 
   if (!isLoaded) return <div className="min-h-screen bg-[#FAFAF9]" />
 
+  const publicUrl =
+    typeof window !== 'undefined' && convexUser?.publicSlug
+      ? `${window.location.origin}/book/${convexUser.publicSlug}`
+      : ''
+
   return (
     <div className="min-h-screen bg-[#FAFAF9] font-sans selection:bg-[#788B80] selection:text-white flex flex-col">
-      {/* Top Navigation / Header structure */}
       <header className="flex items-center justify-between px-6 md:px-10 py-5 border-b border-[#F2F2F0] bg-white/50 backdrop-blur-sm">
         <div className="flex items-center gap-3">
-           <div className="h-5 w-5 rounded-full bg-[#788B80]" />
-           <span className="text-lg font-medium tracking-wide text-[#292524]">Serene</span>
+          <div className="h-5 w-5 rounded-full bg-[#788B80]" />
+          <span className="text-lg font-medium tracking-wide text-[#292524]">Serene</span>
         </div>
         <div className="text-sm text-[#A8A29E] font-light">
-          Step 1 of 1
+          {onboardingStep === 'calendar'
+            ? 'Step 1 of 3'
+            : onboardingStep === 'schedule'
+              ? 'Step 2 of 3'
+              : 'Step 3 of 3'}
         </div>
       </header>
 
-      {/* Main Content Area */}
       <main className="flex-1 flex flex-col items-center justify-center p-6 md:p-12">
-        <motion.div 
-          initial={{ opacity: 0, filter: 'blur(4px)', y: 15 }}
-          animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          className="w-full max-w-4xl flex flex-col lg:flex-row gap-12 lg:gap-20 items-center lg:items-center"
-        >
-          {/* Text & Context - Left Side */}
-          <div className="flex-1 flex flex-col items-center text-center lg:items-start lg:text-left">
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.3, duration: 0.8 }}
-              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EAECEB] text-xs font-medium text-[#57534E] mb-6 md:mb-8"
-            >
-              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-              </svg>
-              Privacy First
-            </motion.div>
+        {onboardingStep === 'calendar' && (
+          <motion.div
+            initial={{ opacity: 0, filter: 'blur(4px)', y: 15 }}
+            animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            className="w-full max-w-4xl flex flex-col lg:flex-row gap-12 lg:gap-20 items-center"
+          >
+            <div className="flex-1 text-center lg:text-left">
+              <h1 className="text-3xl md:text-[40px] font-light tracking-tight text-[#292524] mb-6 leading-[1.15] max-w-lg">
+                Connect your schedule seamlessly
+              </h1>
+              <p className="text-[15px] md:text-base font-light leading-relaxed text-[#78716C] mb-8 max-w-md lg:max-w-none">
+                Serene needs read-only access to your calendar to find available slots for your patients.
+              </p>
+            </div>
 
-            <h1 className="text-3xl md:text-[40px] font-light tracking-tight text-[#292524] mb-6 leading-[1.15] max-w-lg">
-              Connect your schedule seamlessly
+            <div className="w-full max-w-sm lg:w-[360px]">
+              <div className="rounded-3xl bg-white p-8 md:p-10 shadow-[0_8px_40px_rgb(0,0,0,0.04)] border border-[#F2F2F0] flex flex-col items-center">
+                <h3 className="text-xl font-medium text-[#292524] mb-3">Google Calendar</h3>
+                <p className="text-[15px] text-center text-[#A8A29E] font-light mb-8 leading-relaxed">
+                  Connect your professional calendar to enable real-time booking.
+                </p>
+                <button
+                  onClick={() => void handleConnect()}
+                  className="w-full flex items-center justify-center h-[52px] rounded-xl bg-[#292524] px-6 text-[15px] font-medium tracking-wide text-white transition-all duration-500 ease-out hover:bg-[#1C1917]"
+                >
+                  Authenticate Google
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        )}
+
+        {onboardingStep === 'schedule' && (
+          <div className="w-full max-w-2xl bg-white rounded-3xl border border-[#F2F2F0] p-8 shadow-[0_8px_40px_rgb(0,0,0,0.04)]">
+            <h1 className="text-3xl font-light tracking-tight text-[#292524] mb-3">
+              Define your weekly availability
             </h1>
-            
-            <p className="text-[15px] md:text-base font-light leading-relaxed text-[#78716C] mb-8 max-w-md lg:max-w-none">
-              Serene needs read-only access to your calendar to find available slots for your patients. We only read time blocks; your private event details remain strictly confidential.
+            <p className="text-[#78716C] mb-6">
+              Configura tus horarios de atención. Los pacientes verán estos slots en tu zona horaria.
             </p>
 
-            <ul className="space-y-4 text-[14px] md:text-[15px] font-light text-[#57534E] text-left max-w-sm">
-              <li className="flex items-start gap-3">
-                <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-[#788B80] flex-shrink-0" />
-                <span className="leading-snug">Prevents double-booking automatically.</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-[#788B80] flex-shrink-0" />
-                <span className="leading-snug">Zero manual entry required.</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-[#788B80] flex-shrink-0" />
-                <span className="leading-snug">Revoke access at any time from your settings.</span>
-              </li>
-            </ul>
-          </div>
-
-          {/* Action Area - Right Side */}
-          <div className="w-full max-w-sm lg:w-[360px] flex-shrink-0">
-            <div className="rounded-3xl bg-white p-8 md:p-10 shadow-[0_8px_40px_rgb(0,0,0,0.04)] border border-[#F2F2F0] flex flex-col items-center">
-              <div className="mb-6 h-16 w-16 rounded-2xl bg-[#FAFAF9] flex items-center justify-center shadow-inner border border-[#EAECEB]">
-                <svg className="w-7 h-7" viewBox="0 0 24 24" fill="currentColor">
-                   <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-                   <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-                   <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
-                   <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-                </svg>
+            <div className="space-y-6">
+              <div>
+                <label className="block text-sm text-[#57534E] mb-2">Días de atención</label>
+                <div className="flex flex-wrap gap-2">
+                  {weekdays.map((day) => {
+                    const active = schedule.days.includes(day.value)
+                    return (
+                      <button
+                        key={day.value}
+                        type="button"
+                        onClick={() => toggleDay(day.value)}
+                        className={`h-10 px-4 rounded-lg border text-sm ${
+                          active
+                            ? 'bg-[#292524] text-white border-[#292524]'
+                            : 'bg-white text-[#57534E] border-[#EAECEB]'
+                        }`}
+                      >
+                        {day.label}
+                      </button>
+                    )
+                  })}
+                </div>
               </div>
 
-              <h3 className="text-xl font-medium text-[#292524] mb-3">Google Calendar</h3>
-              <p className="text-[15px] text-center text-[#A8A29E] font-light mb-8 leading-relaxed">
-                Connect your professional calendar to enable real-time booking.
-              </p>
+              <div className="grid grid-cols-2 gap-4">
+                <label className="text-sm text-[#57534E]">
+                  Hora de inicio
+                  <input
+                    type="time"
+                    value={schedule.startTime}
+                    onChange={(event) =>
+                      setSchedule((prev) => ({ ...prev, startTime: event.target.value }))
+                    }
+                    className="mt-2 w-full h-11 rounded-lg border border-[#EAECEB] px-3"
+                  />
+                </label>
+                <label className="text-sm text-[#57534E]">
+                  Hora de fin
+                  <input
+                    type="time"
+                    value={schedule.endTime}
+                    onChange={(event) =>
+                      setSchedule((prev) => ({ ...prev, endTime: event.target.value }))
+                    }
+                    className="mt-2 w-full h-11 rounded-lg border border-[#EAECEB] px-3"
+                  />
+                </label>
+              </div>
 
-              <button 
-                onClick={handleConnect}
-                className="w-full flex items-center justify-center h-[52px] rounded-xl bg-[#292524] px-6 text-[15px] font-medium tracking-wide text-white transition-all duration-500 ease-out hover:bg-[#1C1917] hover:shadow-lg hover:shadow-black/5 hover:-translate-y-0.5 active:translate-y-0"
+              <div className="grid grid-cols-2 gap-4">
+                <label className="text-sm text-[#57534E]">
+                  Duración sesión (min)
+                  <input
+                    type="number"
+                    min={20}
+                    step={5}
+                    value={schedule.slotDuration}
+                    onChange={(event) =>
+                      setSchedule((prev) => ({
+                        ...prev,
+                        slotDuration: Number(event.target.value),
+                      }))
+                    }
+                    className="mt-2 w-full h-11 rounded-lg border border-[#EAECEB] px-3"
+                  />
+                </label>
+                <label className="text-sm text-[#57534E]">
+                  Descanso (min)
+                  <input
+                    type="number"
+                    min={0}
+                    step={5}
+                    value={schedule.breakTime}
+                    onChange={(event) =>
+                      setSchedule((prev) => ({
+                        ...prev,
+                        breakTime: Number(event.target.value),
+                      }))
+                    }
+                    className="mt-2 w-full h-11 rounded-lg border border-[#EAECEB] px-3"
+                  />
+                </label>
+              </div>
+
+              {saveError && <p className="text-sm text-[#D9534F]">{saveError}</p>}
+
+              <button
+                disabled={isSavingSchedule}
+                onClick={() => void handleSaveSchedule()}
+                className="w-full h-[52px] rounded-xl bg-[#292524] text-white font-medium disabled:opacity-70"
               >
-                Authenticate Google
+                {isSavingSchedule ? 'Guardando...' : 'Guardar configuración'}
               </button>
             </div>
           </div>
-        </motion.div>
+        )}
+
+        {onboardingStep === 'ready' && (
+          <div className="w-full max-w-2xl bg-white rounded-3xl border border-[#F2F2F0] p-8 shadow-[0_8px_40px_rgb(0,0,0,0.04)]">
+            <h1 className="text-3xl font-light tracking-tight text-[#292524] mb-3">
+              Tu enlace público está listo
+            </h1>
+            <p className="text-[#78716C] mb-6">
+              Compártelo con tus pacientes para que agenden citas en los horarios disponibles.
+            </p>
+            <div className="rounded-xl border border-[#EAECEB] bg-[#FAFAF9] p-4 mb-6 break-all text-sm text-[#57534E]">
+              {publicUrl || 'Generando enlace...'}
+            </div>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <button
+                onClick={() => publicUrl && navigator.clipboard.writeText(publicUrl)}
+                className="h-11 px-5 rounded-xl border border-[#EAECEB] text-sm font-medium text-[#292524]"
+              >
+                Copiar link
+              </button>
+              <Link
+                href="/dashboard"
+                className="h-11 px-5 rounded-xl bg-[#292524] text-white text-sm font-medium inline-flex items-center justify-center"
+              >
+                Ir al Dashboard
+              </Link>
+            </div>
+          </div>
+        )}
       </main>
     </div>
   )

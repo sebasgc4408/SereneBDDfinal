@@ -1,8 +1,23 @@
 import { render, screen } from '@testing-library/react'
-import { describe, it, expect, vi } from 'vitest'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 import Dashboard from './Dashboard'
 
-// Mock de Clerk
+const mockUseQuery = vi.fn()
+
+vi.mock('convex/react', () => ({
+  useQuery: (...args: unknown[]) => mockUseQuery(...args),
+  useMutation: () => vi.fn(),
+}))
+
+vi.mock('@/hooks/useStoreUser', () => ({
+  useStoreUser: () => ({
+    _id: 'user_1',
+    integrationStatus: 'Connected',
+    timezone: 'America/Bogota',
+    publicSlug: 'dr-sarah',
+  }),
+}))
+
 vi.mock('@clerk/nextjs', () => ({
   useUser: () => ({
     user: { firstName: 'Dr. Sarah' },
@@ -12,16 +27,29 @@ vi.mock('@clerk/nextjs', () => ({
 }))
 
 describe('Dashboard Component', () => {
-  it('should render the dashboard structure and upcoming appointments', () => {
+  beforeEach(() => {
+    mockUseQuery.mockReset()
+    mockUseQuery.mockReturnValue([])
+    global.fetch = vi.fn().mockResolvedValue({ ok: true }) as unknown as typeof fetch
+  })
+
+  it('should render dashboard with real-data sections', () => {
+    mockUseQuery
+      .mockReturnValueOnce([]) // appointments
+      .mockReturnValueOnce({
+        totalAppointments: 0,
+        completionRate: 0,
+        noShowRate: 0,
+      }) // kpis
+      .mockReturnValueOnce({
+        whatsappConnected: false,
+      }) // whatsapp integration status
+
     render(<Dashboard />)
-    
-    // Debería tener un saludo personalizado
+
     expect(screen.getByText(/Good morning, Dr. Sarah/i)).toBeInTheDocument()
-    
-    // Debería tener la sección de citas próximas
-    expect(screen.getByText(/Upcoming Appointments/i)).toBeInTheDocument()
-    
-    // Debería tener un estado de integración visible
-    expect(screen.getByText(/Calendar Sync/i)).toBeInTheDocument()
+    expect(screen.getByText(/Appointments/i)).toBeInTheDocument()
+    expect(screen.getByText(/Quick Actions/i)).toBeInTheDocument()
+    expect(screen.getByText(/Integrations/i)).toBeInTheDocument()
   })
 })

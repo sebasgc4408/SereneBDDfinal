@@ -1,4 +1,4 @@
-import { internalQuery, internalMutation, internalAction } from './_generated/server'
+import { query, internalQuery, internalMutation, internalAction } from './_generated/server'
 import { internal } from './_generated/api'
 import { v } from 'convex/values'
 
@@ -52,6 +52,31 @@ export const getAppointmentById = internalQuery({
   },
 })
 
+export const getUserById = internalQuery({
+  args: { userId: v.id('users') },
+  handler: async (ctx, args) => {
+    return await ctx.db.get(args.userId)
+  },
+})
+
+export const getIntegrationStatus = query({
+  args: { userId: v.id('users') },
+  handler: async (ctx, args) => {
+    const user = await ctx.db.get(args.userId)
+    const twilioConfigured = Boolean(
+      process.env.TWILIO_ACCOUNT_SID &&
+        process.env.TWILIO_AUTH_TOKEN &&
+        process.env.TWILIO_WHATSAPP_FROM
+    )
+    const whatsappEnabled = user?.whatsappEnabled ?? true
+    return {
+      twilioConfigured,
+      whatsappEnabled,
+      whatsappConnected: twilioConfigured && whatsappEnabled,
+    }
+  },
+})
+
 export const sendWhatsAppConfirmation = internalAction({
   args: { appointmentId: v.id('appointments') },
   handler: async (ctx, args) => {
@@ -62,6 +87,11 @@ export const sendWhatsAppConfirmation = internalAction({
     if (!appointment) return
     if (!appointment.whatsappOptIn) return
     if (!appointment.patientPhone) return
+
+    const user = await ctx.runQuery(internal.whatsapp.getUserById, {
+      userId: appointment.userId,
+    })
+    if (user?.whatsappEnabled === false) return
 
     const phone = normalizePhoneToE164(appointment.patientPhone)
     const date = new Date(appointment.startTime).toLocaleString('es-ES', {
@@ -92,6 +122,11 @@ export const sendWhatsAppReminder = internalAction({
     if (!appointment.whatsappOptIn) return
     if (!appointment.patientPhone) return
     if (appointment.reminderSent) return
+
+    const user = await ctx.runQuery(internal.whatsapp.getUserById, {
+      userId: appointment.userId,
+    })
+    if (user?.whatsappEnabled === false) return
 
     const phone = normalizePhoneToE164(appointment.patientPhone)
     const date = new Date(appointment.startTime).toLocaleString('es-ES', {

@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
+import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 
 const Pricing = () => {
@@ -126,9 +127,9 @@ const Pricing = () => {
               ))}
             </ul>
 
-            <button className="w-full flex items-center justify-center h-14 rounded-2xl bg-[#292524] px-8 text-[15px] font-medium tracking-wide text-white transition-all duration-300 hover:bg-[#1C1917] hover:shadow-[0_8px_20px_rgb(0,0,0,0.12)] hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]">
+            <Link href="/book" className="w-full flex items-center justify-center h-14 rounded-2xl bg-[#292524] px-8 text-[15px] font-medium tracking-wide text-white transition-all duration-300 hover:bg-[#1C1917] hover:shadow-[0_8px_20px_rgb(0,0,0,0.12)] hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]" role="button">
               Start your 14-day free trial
-            </button>
+            </Link>
             <p className="text-center text-[11px] text-[#A8A29E] mt-4 font-light">
               No credit card required for trial.
             </p>
