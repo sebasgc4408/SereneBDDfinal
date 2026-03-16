@@ -67,7 +67,7 @@ const BookingPage: React.FC<BookingPageProps> = ({ slug }) => {
     if (!psychologist || !selectedSlot) return
     setBookingError(null)
     try {
-      await createAppointment({
+      const appointmentId = await createAppointment({
         userId: psychologist._id,
         patientName: data.name,
         patientEmail: data.email,
@@ -77,6 +77,24 @@ const BookingPage: React.FC<BookingPageProps> = ({ slug }) => {
         whatsappOptIn: data.whatsappOptIn,
         channel: 'web',
       })
+
+      if (psychologist.clerkId && psychologist.integrationStatus === 'Connected') {
+        fetch('/api/appointments/google-event', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            psychologistClerkId: psychologist.clerkId,
+            appointmentId,
+            startTime: selectedSlot.startTime,
+            endTime: selectedSlot.endTime,
+            patientName: data.name,
+            patientEmail: data.email,
+            psychologistName: psychologist.name ?? '',
+            timezone,
+          }),
+        }).catch((err) => console.error('Google Calendar sync failed:', err))
+      }
+
       setPatientName(data.name)
       setStep('confirmation')
     } catch (error) {

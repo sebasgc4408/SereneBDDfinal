@@ -157,3 +157,15 @@ export const markCompleted = mutation({
     })
   },
 })
+
+export const updateGoogleEventId = mutation({
+  args: {
+    appointmentId: v.id('appointments'),
+    googleEventId: v.string(),
+  },
+  handler: async (ctx, args) => {
+    await ctx.db.patch(args.appointmentId, {
+      googleEventId: args.googleEventId,
+    })
+  },
+})
