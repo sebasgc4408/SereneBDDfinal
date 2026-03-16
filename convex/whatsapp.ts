@@ -14,6 +14,37 @@ export function normalizePhoneToE164(phone: string): string {
   return cleaned
 }
 
+/** Build Twilio Basic Auth header from env vars */
+function twilioAuthHeader(): string {
+  const accountSid = process.env.TWILIO_ACCOUNT_SID ?? ''
+  const authToken = process.env.TWILIO_AUTH_TOKEN ?? ''
+  return 'Basic ' + btoa(`${accountSid}:${authToken}`)
+}
+
+/** Send a WhatsApp message via Twilio Messages API */
+async function sendTwilioMessage(to: string, body: string): Promise<Response> {
+  const accountSid = process.env.TWILIO_ACCOUNT_SID ?? ''
+  const from = process.env.TWILIO_WHATSAPP_FROM ?? '' // e.g. "whatsapp:+14155238886"
+
+  const params = new URLSearchParams({
+    From: from,
+    To: `whatsapp:${to}`,
+    Body: body,
+  })
+
+  return fetch(
+    `https://api.twilio.com/2010-04-01/Accounts/${accountSid}/Messages.json`,
+    {
+      method: 'POST',
+      headers: {
+        Authorization: twilioAuthHeader(),
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: params.toString(),
+    }
+  )
+}
+
 export const getAppointmentById = internalQuery({
   args: { appointmentId: v.id('appointments') },
   handler: async (ctx, args) => {
@@ -32,39 +63,21 @@ export const sendWhatsAppConfirmation = internalAction({
     if (!appointment.whatsappOptIn) return
     if (!appointment.patientPhone) return
 
-    const phoneNumberId = process.env.WHATSAPP_PHONE_NUMBER_ID
-    const accessToken = process.env.WHATSAPP_ACCESS_TOKEN
-
-    const recipientPhone = normalizePhoneToE164(appointment.patientPhone)
-
-    await fetch(`https://graph.facebook.com/v21.0/${phoneNumberId}/messages`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        messaging_product: 'whatsapp',
-        to: recipientPhone,
-        type: 'template',
-        template: {
-          name: 'appointment_confirmation',
-          language: { code: 'en' },
-          components: [
-            {
-              type: 'body',
-              parameters: [
-                { type: 'text', text: appointment.patientName },
-                {
-                  type: 'text',
-                  text: new Date(appointment.startTime).toLocaleString(),
-                },
-              ],
-            },
-          ],
-        },
-      }),
+    const phone = normalizePhoneToE164(appointment.patientPhone)
+    const date = new Date(appointment.startTime).toLocaleString('es-ES', {
+      weekday: 'long',
+      day: 'numeric',
+      month: 'long',
+      hour: '2-digit',
+      minute: '2-digit',
     })
+
+    const message =
+      `Hola ${appointment.patientName}, tu cita ha sido confirmada para el ${date}. ` +
+      `Te enviaremos un recordatorio 24 horas antes. ` +
+      `Para cancelar responde CANCELAR.`
+
+    await sendTwilioMessage(phone, message)
   },
 })
 
@@ -80,39 +93,20 @@ export const sendWhatsAppReminder = internalAction({
     if (!appointment.patientPhone) return
     if (appointment.reminderSent) return
 
-    const phoneNumberId = process.env.WHATSAPP_PHONE_NUMBER_ID
-    const accessToken = process.env.WHATSAPP_ACCESS_TOKEN
-
-    const recipientPhone = normalizePhoneToE164(appointment.patientPhone)
-
-    const response = await fetch(`https://graph.facebook.com/v21.0/${phoneNumberId}/messages`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        messaging_product: 'whatsapp',
-        to: recipientPhone,
-        type: 'template',
-        template: {
-          name: 'appointment_reminder',
-          language: { code: 'en' },
-          components: [
-            {
-              type: 'body',
-              parameters: [
-                { type: 'text', text: appointment.patientName },
-                {
-                  type: 'text',
-                  text: new Date(appointment.startTime).toLocaleString(),
-                },
-              ],
-            },
-          ],
-        },
-      }),
+    const phone = normalizePhoneToE164(appointment.patientPhone)
+    const date = new Date(appointment.startTime).toLocaleString('es-ES', {
+      weekday: 'long',
+      day: 'numeric',
+      month: 'long',
+      hour: '2-digit',
+      minute: '2-digit',
     })
+
+    const message =
+      `Hola ${appointment.patientName}, te recordamos que tienes una cita mañana ${date}. ` +
+      `Para confirmar responde CONFIRMAR, para cancelar responde CANCELAR.`
+
+    const response = await sendTwilioMessage(phone, message)
 
     if (response.ok) {
       await ctx.runMutation(internal.whatsapp.markReminderSent, {

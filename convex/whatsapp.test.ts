@@ -53,7 +53,7 @@ describe('WhatsApp Module', () => {
   })
 
   describe('sendWhatsAppConfirmation', () => {
-    it('should call fetch with correct WhatsApp API params', async () => {
+    it('should call Twilio API with correct params', async () => {
       const t = convexTest(schema, modules)
       const { appointmentId } = await createTestAppointment(t)
 
@@ -61,11 +61,12 @@ describe('WhatsApp Module', () => {
 
       expect(fetchSpy).toHaveBeenCalledTimes(1)
       const [url, options] = fetchSpy.mock.calls[0]
-      expect(url).toContain('graph.facebook.com/v21.0')
-      expect(url).toContain('/messages')
-      const body = JSON.parse(options.body)
-      expect(body.template.name).toBe('appointment_confirmation')
-      expect(body.to).toBe('+15550001234')
+      expect(url).toContain('api.twilio.com')
+      expect(url).toContain('/Messages.json')
+      expect(options.headers['Content-Type']).toBe('application/x-www-form-urlencoded')
+      const params = new URLSearchParams(options.body)
+      expect(params.get('To')).toBe('whatsapp:+15550001234')
+      expect(params.get('Body')).toContain('Jane Doe')
     })
 
     it('should not call fetch when whatsappOptIn is false', async () => {
@@ -81,16 +82,18 @@ describe('WhatsApp Module', () => {
   })
 
   describe('sendWhatsAppReminder', () => {
-    it('should call fetch and mark reminderSent', async () => {
+    it('should call Twilio and mark reminderSent', async () => {
       const t = convexTest(schema, modules)
       const { userId, appointmentId } = await createTestAppointment(t)
 
       await t.action('whatsapp:sendWhatsAppReminder', { appointmentId })
 
       expect(fetchSpy).toHaveBeenCalledTimes(1)
-      const [, options] = fetchSpy.mock.calls[0]
-      const body = JSON.parse(options.body)
-      expect(body.template.name).toBe('appointment_reminder')
+      const [url, options] = fetchSpy.mock.calls[0]
+      expect(url).toContain('api.twilio.com')
+      const params = new URLSearchParams(options.body)
+      expect(params.get('To')).toBe('whatsapp:+15550001234')
+      expect(params.get('Body')).toContain('CONFIRMAR')
 
       // Verify reminderSent was marked
       const appointments = await t.query('appointments:getAppointmentsForUser', { userId })
@@ -185,8 +188,8 @@ describe('WhatsApp Module', () => {
       await t.action('whatsapp:sendWhatsAppReminder', { appointmentId: eligibleId })
 
       expect(fetchSpy).toHaveBeenCalledTimes(1)
-      const body = JSON.parse(fetchSpy.mock.calls[0][1].body)
-      expect(body.to).toBe('+15550001111')
+      const params = new URLSearchParams(fetchSpy.mock.calls[0][1].body)
+      expect(params.get('To')).toBe('whatsapp:+15550001111')
     })
   })
 

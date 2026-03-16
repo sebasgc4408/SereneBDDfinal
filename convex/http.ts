@@ -4,64 +4,46 @@ import { internal } from './_generated/api'
 
 const http = httpRouter()
 
-// GET: Meta webhook verification
-http.route({
-  path: '/whatsapp-webhook',
-  method: 'GET',
-  handler: httpAction(async (_, request) => {
-    const url = new URL(request.url)
-    const mode = url.searchParams.get('hub.mode')
-    const token = url.searchParams.get('hub.verify_token')
-    const challenge = url.searchParams.get('hub.challenge')
-
-    const verifyToken = process.env.WHATSAPP_VERIFY_TOKEN
-
-    if (mode === 'subscribe' && token === verifyToken) {
-      return new Response(challenge, { status: 200 })
-    }
-
-    return new Response('Forbidden', { status: 403 })
-  }),
-})
-
-// POST: Incoming WhatsApp messages (button replies)
+// POST: Incoming WhatsApp messages from Twilio
+// Twilio sends form-encoded POST. No GET verification needed.
 http.route({
   path: '/whatsapp-webhook',
   method: 'POST',
   handler: httpAction(async (ctx, request) => {
-    // TODO: Verify X-Hub-Signature-256 (HMAC-SHA256) in production
-    const body = await request.json()
-
+    // TODO: Verify X-Twilio-Signature (HMAC-SHA1) in production
     try {
-      const message = body?.entry?.[0]?.changes?.[0]?.value?.messages?.[0]
-      if (!message || message.type !== 'interactive') {
-        return new Response('OK', { status: 200 })
-      }
+      const text = await request.text()
+      const params = new URLSearchParams(text)
 
-      const buttonReplyId = message.interactive?.button_reply?.id
-      if (!buttonReplyId) {
+      // Patient replied with text body (CONFIRMAR / CANCELAR)
+      const body = (params.get('Body') ?? '').trim().toUpperCase()
+      // ButtonPayload is set when using Twilio Content Templates with quick-reply buttons
+      const buttonPayload = (params.get('ButtonPayload') ?? '').trim()
+
+      const payload = buttonPayload || body
+
+      if (!payload) {
         return new Response('OK', { status: 200 })
       }
 
       // Expected format: "confirm_{appointmentId}" or "cancel_{appointmentId}"
-      const [action, ...idParts] = buttonReplyId.split('_')
+      // Also accept plain text replies: "CONFIRMAR" or "CANCELAR" (without appointmentId — future)
+      const [action, ...idParts] = payload.split('_')
       const appointmentId = idParts.join('_')
 
-      if (!appointmentId) {
-        return new Response('OK', { status: 200 })
-      }
-
-      if (action === 'cancel') {
-        await ctx.runMutation(internal.whatsapp.cancelAppointmentViaWhatsApp, {
-          appointmentId: appointmentId as any,
-        })
-      } else if (action === 'confirm') {
-        await ctx.runMutation(internal.whatsapp.confirmAppointmentViaWhatsApp, {
-          appointmentId: appointmentId as any,
-        })
+      if (appointmentId) {
+        if (action.toLowerCase() === 'cancel' || action === 'CANCELAR') {
+          await ctx.runMutation(internal.whatsapp.cancelAppointmentViaWhatsApp, {
+            appointmentId: appointmentId as any,
+          })
+        } else if (action.toLowerCase() === 'confirm' || action === 'CONFIRMAR') {
+          await ctx.runMutation(internal.whatsapp.confirmAppointmentViaWhatsApp, {
+            appointmentId: appointmentId as any,
+          })
+        }
       }
     } catch {
-      // Swallow parse errors — Meta sends various payload shapes
+      // Swallow parse errors — always return 200 to Twilio
     }
 
     return new Response('OK', { status: 200 })

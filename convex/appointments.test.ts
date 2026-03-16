@@ -81,8 +81,10 @@ describe('Appointments Backend', () => {
     await t.action('whatsapp:sendWhatsAppConfirmation', { appointmentId })
 
     expect(fetchSpy).toHaveBeenCalledTimes(1)
-    const body = JSON.parse(fetchSpy.mock.calls[0][1].body)
-    expect(body.template.name).toBe('appointment_confirmation')
+    const [url, options] = fetchSpy.mock.calls[0]
+    expect(url).toContain('api.twilio.com')
+    const params = new URLSearchParams(options.body)
+    expect(params.get('To')).toBe('whatsapp:+15550001234')
   })
 
   it('should NOT send WhatsApp confirmation without opt-in', async () => {
