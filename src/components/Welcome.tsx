@@ -53,7 +53,13 @@ const Welcome = () => {
           </div>
 
           <div className="space-y-6">
-            <SignInButton mode="modal">
+            <SignInButton
+              mode="modal"
+              fallbackRedirectUrl="/onboarding"
+              forceRedirectUrl="/onboarding"
+              signUpFallbackRedirectUrl="/onboarding"
+              signUpForceRedirectUrl="/onboarding"
+            >
               <button className="group relative flex h-[52px] w-full items-center justify-center overflow-hidden rounded-xl bg-[#292524] px-8 text-[15px] font-medium tracking-wide text-white transition-all duration-300 ease-out hover:bg-[#1C1917] hover:shadow-[0_8px_20px_rgb(0,0,0,0.12)] hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]">
                 <span>Continue with Email</span>
               </button>
