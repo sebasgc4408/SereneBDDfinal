@@ -2,10 +2,12 @@
 
 import React from 'react'
 import Link from 'next/link'
-import { SignInButton } from '@clerk/nextjs'
+import { SignInButton, SignOutButton, SignUpButton, useUser } from '@clerk/nextjs'
 import { motion } from 'framer-motion'
 
 const Welcome = () => {
+  const { isSignedIn, user } = useUser()
+
   return (
     <div className="flex min-h-screen w-full bg-[#FAFAF9] font-sans selection:bg-[#788B80] selection:text-white">
       {/* Structural Left Panel - The "Serene" Aesthetic */}
@@ -53,17 +55,45 @@ const Welcome = () => {
           </div>
 
           <div className="space-y-6">
-            <SignInButton
-              mode="redirect"
-              fallbackRedirectUrl="/onboarding"
-              forceRedirectUrl="/onboarding"
-              signUpFallbackRedirectUrl="/onboarding"
-              signUpForceRedirectUrl="/onboarding"
-            >
-              <button className="group relative flex h-[52px] w-full items-center justify-center overflow-hidden rounded-xl bg-[#292524] px-8 text-[15px] font-medium tracking-wide text-white transition-all duration-300 ease-out hover:bg-[#1C1917] hover:shadow-[0_8px_20px_rgb(0,0,0,0.12)] hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]">
-                <span>Continue with Email</span>
-              </button>
-            </SignInButton>
+            {isSignedIn ? (
+              <div className="space-y-3">
+                <p className="text-sm text-[#78716C]">
+                  Signed in as {user?.primaryEmailAddress?.emailAddress ?? 'your account'}
+                </p>
+                <Link
+                  href="/onboarding"
+                  className="group relative flex h-[52px] w-full items-center justify-center overflow-hidden rounded-xl bg-[#292524] px-8 text-[15px] font-medium tracking-wide text-white transition-all duration-300 ease-out hover:bg-[#1C1917] hover:shadow-[0_8px_20px_rgb(0,0,0,0.12)] hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]"
+                >
+                  Continue to workspace
+                </Link>
+                <SignOutButton redirectUrl="/">
+                  <button className="flex h-[48px] w-full items-center justify-center rounded-xl border border-[#D9DDDB] text-[14px] font-medium text-[#57534E] hover:border-[#788B80] hover:text-[#292524] transition-all">
+                    Use another account
+                  </button>
+                </SignOutButton>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                <SignInButton
+                  mode="redirect"
+                  fallbackRedirectUrl="/onboarding"
+                  forceRedirectUrl="/onboarding"
+                >
+                  <button className="group relative flex h-[52px] w-full items-center justify-center overflow-hidden rounded-xl bg-[#292524] px-8 text-[15px] font-medium tracking-wide text-white transition-all duration-300 ease-out hover:bg-[#1C1917] hover:shadow-[0_8px_20px_rgb(0,0,0,0.12)] hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]">
+                    <span>Sign in</span>
+                  </button>
+                </SignInButton>
+                <SignUpButton
+                  mode="redirect"
+                  fallbackRedirectUrl="/onboarding"
+                  forceRedirectUrl="/onboarding"
+                >
+                  <button className="flex h-[48px] w-full items-center justify-center rounded-xl border border-[#D9DDDB] text-[14px] font-medium text-[#57534E] hover:border-[#788B80] hover:text-[#292524] transition-all">
+                    Create account
+                  </button>
+                </SignUpButton>
+              </div>
+            )}
 
             <p className="text-center text-[13px] text-[#A8A29E] font-light">
               By continuing, you securely authenticate via Clerk.

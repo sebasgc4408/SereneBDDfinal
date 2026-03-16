@@ -4,6 +4,9 @@ import Welcome from './Welcome'
 
 vi.mock('@clerk/nextjs', () => ({
   SignInButton: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+  SignUpButton: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+  SignOutButton: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+  useUser: () => ({ isSignedIn: false, user: null }),
 }))
 
 describe('Welcome Component', () => {
