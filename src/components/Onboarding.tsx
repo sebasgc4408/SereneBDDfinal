@@ -108,11 +108,32 @@ const Onboarding = () => {
 
   const handleConnect = async () => {
     if (!user) return
+
+    const calendarScopes = [
+      'https://www.googleapis.com/auth/calendar.readonly',
+      'https://www.googleapis.com/auth/calendar.events',
+    ]
+
     try {
-      await user.createExternalAccount({
-        strategy: 'oauth_google',
-        redirectUrl: '/onboarding',
-      })
+      const existingGoogle = user.externalAccounts.find((a) =>
+        String(a.provider).toLowerCase().includes('google')
+      )
+
+      const result = existingGoogle
+        ? await existingGoogle.reauthorize({
+            additionalScopes: calendarScopes,
+            redirectUrl: '/onboarding',
+          })
+        : await user.createExternalAccount({
+            strategy: 'oauth_google',
+            redirectUrl: '/onboarding',
+            additionalScopes: calendarScopes,
+          })
+
+      const redirectUrl = result.verification?.externalVerificationRedirectURL
+      if (redirectUrl) {
+        window.location.href = redirectUrl.href
+      }
     } catch (err) {
       console.error('Failed to connect Google Calendar', err)
     }
