@@ -54,7 +54,7 @@ const Welcome = () => {
 
           <div className="space-y-6">
             <SignInButton
-              mode="modal"
+              mode="redirect"
               fallbackRedirectUrl="/onboarding"
               forceRedirectUrl="/onboarding"
               signUpFallbackRedirectUrl="/onboarding"
