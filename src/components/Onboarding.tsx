@@ -119,14 +119,16 @@ const Onboarding = () => {
         String(a.provider).toLowerCase().includes('google')
       )
 
+      const onboardingUrl = `${window.location.origin}/onboarding`
+
       const result = existingGoogle
         ? await existingGoogle.reauthorize({
             additionalScopes: calendarScopes,
-            redirectUrl: '/onboarding',
+            redirectUrl: onboardingUrl,
           })
         : await user.createExternalAccount({
             strategy: 'oauth_google',
-            redirectUrl: '/onboarding',
+            redirectUrl: onboardingUrl,
             additionalScopes: calendarScopes,
           })
 
