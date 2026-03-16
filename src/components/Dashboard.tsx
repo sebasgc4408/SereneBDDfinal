@@ -111,6 +111,7 @@ const Dashboard = () => {
               Psychologist
             </span>
           )}
+          <UserButton afterSignOutUrl="/" />
           <div className="hidden md:flex items-center gap-2 text-[13px] font-medium text-[#78716C]">
             <span
               className={`h-2 w-2 rounded-full ${
