@@ -32,6 +32,7 @@ export function useStoreUser() {
       email: primaryEmail,
       clerkId: clerkUser.id,
       name: clerkUser.fullName ?? undefined,
+      userType: 'psychologist',
     }).catch(() => {
       createAttempted.current = false
     })

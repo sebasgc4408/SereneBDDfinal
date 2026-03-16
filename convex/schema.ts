@@ -6,7 +6,8 @@ export default defineSchema({
     email: v.string(),
     clerkId: v.string(),
     name: v.optional(v.string()),
-    integrationStatus: v.optional(v.string()), // e.g. "Connected", "Pending"
+    userType: v.optional(v.union(v.literal('psychologist'), v.literal('patient'))),
+    integrationStatus: v.optional(v.string()),
     timezone: v.optional(v.string()),
     publicSlug: v.optional(v.string()),
     googleRefreshToken: v.optional(v.string()),

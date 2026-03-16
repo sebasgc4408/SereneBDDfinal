@@ -69,6 +69,7 @@ export const createUser = mutation({
     email: v.string(),
     clerkId: v.string(),
     name: v.optional(v.string()),
+    userType: v.optional(v.union(v.literal('psychologist'), v.literal('patient'))),
   },
   handler: async (ctx, args) => {
     const existing = await ctx.db
@@ -86,6 +87,7 @@ export const createUser = mutation({
       email: args.email,
       clerkId: args.clerkId,
       name: args.name,
+      userType: args.userType ?? 'psychologist',
       integrationStatus: 'Pending',
       publicSlug: uniqueSlug,
       whatsappEnabled: true,

@@ -106,6 +106,11 @@ const Dashboard = () => {
           <span className="text-lg font-medium tracking-wide text-[#292524]">Serene</span>
         </div>
         <div className="flex items-center gap-5">
+          {convexUser?.userType === 'psychologist' && (
+            <span className="hidden md:inline-flex items-center rounded-full bg-[#EAECEB] px-3 py-1 text-[12px] font-medium text-[#57534E]">
+              Psychologist
+            </span>
+          )}
           <div className="hidden md:flex items-center gap-2 text-[13px] font-medium text-[#78716C]">
             <span
               className={`h-2 w-2 rounded-full ${

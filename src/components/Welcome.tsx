@@ -50,7 +50,7 @@ const Welcome = () => {
               Welcome back
             </h1>
             <p className="text-[15px] text-[#78716C] font-light leading-relaxed">
-              Log in or create an account to access your workspace.
+              Log in or create an account to access your workspace. Serene is built exclusively for mental health professionals.
             </p>
           </div>
 
@@ -89,7 +89,7 @@ const Welcome = () => {
                   forceRedirectUrl="/onboarding"
                 >
                   <button className="flex h-[48px] w-full items-center justify-center rounded-xl border border-[#D9DDDB] text-[14px] font-medium text-[#57534E] hover:border-[#788B80] hover:text-[#292524] transition-all">
-                    Create account
+                    I&apos;m a psychologist — create account
                   </button>
                 </SignUpButton>
               </div>
