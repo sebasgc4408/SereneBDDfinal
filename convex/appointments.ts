@@ -1,4 +1,5 @@
 import { query, mutation } from './_generated/server'
+import { internal } from './_generated/api'
 import { v } from 'convex/values'
 
 export const createAppointment = mutation({
@@ -9,11 +10,9 @@ export const createAppointment = mutation({
     patientPhone: v.optional(v.string()),
     startTime: v.number(),
     endTime: v.number(),
+    whatsappOptIn: v.optional(v.boolean()),
   },
   handler: async (ctx, args) => {
-    // Inserta la cita con estado inicial "Confirmed"
-    // En el futuro, un background job puede procesar esto para inyectarlo en Google Calendar
-    // y luego actualizar el campo googleEventId.
     const appointmentId = await ctx.db.insert('appointments', {
       userId: args.userId,
       patientName: args.patientName,
@@ -22,7 +21,14 @@ export const createAppointment = mutation({
       startTime: args.startTime,
       endTime: args.endTime,
       status: 'Confirmed',
+      whatsappOptIn: args.whatsappOptIn,
     })
+
+    if (args.whatsappOptIn && args.patientPhone) {
+      await ctx.scheduler.runAfter(0, internal.whatsapp.sendWhatsAppConfirmation, {
+        appointmentId,
+      })
+    }
 
     return appointmentId
   },

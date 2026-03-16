@@ -42,29 +42,29 @@ const Welcome = () => {
            <span className="text-xl font-medium tracking-wide text-[#292524]">Serene</span>
           </div>
 
-          <div className="mb-10 text-left">
-            <h1 className="text-3xl font-light tracking-tight text-[#292524] mb-3">
+          <div className="mb-8 text-left">
+            <h1 className="text-[32px] font-light tracking-tight text-[#292524] mb-3">
               Welcome back
             </h1>
-            <p className="text-[#78716C] font-light">
+            <p className="text-[15px] text-[#78716C] font-light leading-relaxed">
               Log in or create an account to access your workspace.
             </p>
           </div>
           
-          <div className="rounded-2xl bg-white p-8 shadow-[0_4px_24px_rgb(0,0,0,0.02)] border border-[#F2F2F0]">
+          <div className="space-y-6">
             <SignInButton mode="modal">
-              <button className="group relative flex h-12 w-full items-center justify-center overflow-hidden rounded-xl bg-[#292524] px-8 text-sm font-medium tracking-wide text-white transition-all duration-300 ease-out hover:bg-[#1C1917] hover:shadow-lg hover:shadow-black/5 active:scale-[0.98]">
+              <button className="group relative flex h-[52px] w-full items-center justify-center overflow-hidden rounded-xl bg-[#292524] px-8 text-[15px] font-medium tracking-wide text-white transition-all duration-300 ease-out hover:bg-[#1C1917] hover:shadow-[0_8px_20px_rgb(0,0,0,0.12)] hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]">
                 <span>Continue with Email</span>
               </button>
             </SignInButton>
             
-            <div className="mt-6 text-center text-xs text-[#A8A29E] font-light leading-relaxed">
+            <p className="text-center text-[13px] text-[#A8A29E] font-light">
               By continuing, you securely authenticate via Clerk.
-            </div>
+            </p>
           </div>
           
-          <div className="mt-12 flex items-center justify-start gap-2 text-xs text-[#A8A29E]">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <div className="mt-12 pt-8 border-t border-[#EAECEB] flex items-center justify-start gap-2 text-[13px] text-[#78716C]">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
             </svg>
             <span>Clinical-grade infrastructure</span>

@@ -5,11 +5,11 @@ import React, { useState } from 'react'
 interface PatientIntakeFormProps {
   selectedTime: string
   selectedDate: string
-  onSubmit: (data: { name: string; email: string; phone: string }) => void
+  onSubmit: (data: { name: string; email: string; phone: string; whatsappOptIn: boolean }) => void
 }
 
 const PatientIntakeForm: React.FC<PatientIntakeFormProps> = ({ selectedTime, selectedDate, onSubmit }) => {
-  const [formData, setFormData] = useState({ name: '', email: '', phone: '' })
+  const [formData, setFormData] = useState({ name: '', email: '', phone: '', whatsappOptIn: false })
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -67,17 +67,37 @@ const PatientIntakeForm: React.FC<PatientIntakeFormProps> = ({ selectedTime, sel
 
         <div>
           <label htmlFor="phone" className="block text-[14px] font-medium text-[#292524] mb-2">
-            Phone Number <span className="text-[#A8A29E] font-light">(Optional)</span>
+            {formData.whatsappOptIn ? (
+              <>Phone Number <span className="text-[#788B80] font-light">(WhatsApp)</span></>
+            ) : (
+              <>Phone Number <span className="text-[#A8A29E] font-light">(Optional)</span></>
+            )}
           </label>
           <input
             type="tel"
             id="phone"
+            required={formData.whatsappOptIn}
+            pattern={formData.whatsappOptIn ? '^\\+[1-9]\\d{6,14}$' : undefined}
             className="w-full h-[52px] px-4 rounded-xl border border-[#EAECEB] bg-[#FAFAF9] text-[#292524] focus:outline-none focus:ring-2 focus:ring-[#788B80]/20 focus:border-[#788B80] transition-all"
             value={formData.phone}
             onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
             placeholder="+1 (555) 000-0000"
           />
         </div>
+
+        {/* WhatsApp Opt-In */}
+        <label htmlFor="whatsappOptIn" className="flex items-start gap-3 p-4 rounded-xl bg-[#FAFAF9] border border-[#EAECEB] cursor-pointer">
+          <input
+            type="checkbox"
+            id="whatsappOptIn"
+            checked={formData.whatsappOptIn}
+            onChange={(e) => setFormData({ ...formData, whatsappOptIn: e.target.checked })}
+            className="mt-0.5 h-4 w-4 rounded border-[#EAECEB] text-[#788B80] focus:ring-[#788B80]/20"
+          />
+          <span className="text-[13px] text-[#57534E] leading-relaxed">
+            Send my booking details and reminders via WhatsApp
+          </span>
+        </label>
 
         <div className="pt-4">
           <button 

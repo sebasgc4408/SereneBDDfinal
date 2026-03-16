@@ -26,5 +26,9 @@ export default defineSchema({
     endTime: v.number(),
     status: v.string(), // "Confirmed", "Cancelled"
     googleEventId: v.optional(v.string()), // Null until successfully synced to Google
-  }).index('by_user', ['userId']),
+    whatsappOptIn: v.optional(v.boolean()),
+    reminderSent: v.optional(v.boolean()),
+    confirmedViaWhatsApp: v.optional(v.boolean()),
+  }).index('by_user', ['userId'])
+    .index('by_status_and_time', ['status', 'startTime']),
 })
