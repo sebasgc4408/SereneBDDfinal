@@ -1,29 +1,57 @@
-# Actividad Final DatAI - Serene en Supabase
+# Actividad Final DatAI
 
-## 1. Problema
+# Serene: base de datos para automatizar reservas en salud mental
 
-Serene es una plataforma pensada para psicologos independientes y pequenos consultorios de salud mental. El problema principal es que muchos profesionales pierden tiempo coordinando citas, revisando disponibilidad, enviando recordatorios y evitando cruces con su calendario personal. Esa friccion administrativa afecta la experiencia del paciente y tambien puede producir cancelaciones, no-shows y perdida de ingresos.
+**Plataforma elegida:** Supabase PostgreSQL  
+**Repositorio:** https://github.com/sebasgc4408/SereneBDDfinal  
+**Proyecto en Supabase:** pegar aqui el enlace o captura del panel  
+**Integrantes:** pegar aqui los nombres del equipo
 
-La base de datos propuesta permite centralizar psicologos, pacientes, reglas de disponibilidad, citas, solicitudes de reserva, integraciones y seguimientos. El objetivo no es solo guardar datos, sino responder preguntas de negocio: ocupacion de agenda, conversion por canal, riesgo de no-show, pacientes recurrentes y carga operativa.
+## 1. Introduccion
 
-## 2. Plataforma elegida
+Para esta actividad trabajamos sobre **Serene**, una idea de aplicacion orientada a psicologos independientes y pequenos consultorios de salud mental. El objetivo de Serene es reducir la carga administrativa que aparece alrededor de las citas: coordinar horarios, revisar disponibilidad, evitar cruces con el calendario, registrar pacientes, enviar recordatorios y hacer seguimiento despues de una sesion.
 
-La plataforma elegida fue **Supabase PostgreSQL**, una plataforma cloud/serverless del catalogo del curso. Se eligio porque el caso de Serene es principalmente relacional: un psicologo tiene muchos pacientes, muchas citas, muchas reglas de disponibilidad y muchos eventos de calendario. PostgreSQL permite modelar estas relaciones con llaves foraneas, restricciones, indices y consultas analiticas.
+Aunque la aplicacion original tenia una interfaz y un backend basado en Convex, para la entrega final del curso decidimos aterrizar el proyecto en una plataforma del catalogo visto en clase. Por eso montamos una version relacional de la base de datos en **Supabase PostgreSQL**. La meta fue que la base quedara desplegada, con datos cargados y con consultas capaces de responder preguntas reales del negocio.
 
-Tambien se considero **MongoDB Atlas** y **BigQuery**. MongoDB Atlas es util cuando el esquema es muy flexible, pero en este caso las relaciones y reglas de integridad son importantes. BigQuery es muy fuerte para analitica a gran escala, pero para una aplicacion transaccional de reservas seria menos practico como base principal. Supabase ofrece un punto intermedio: base transaccional real, consultas SQL potentes, interfaz web, tier gratuito y facil verificacion por el profesor.
+En pocas palabras, el proyecto busca mostrar como una base de datos puede ayudar a que un psicologo entienda mejor su agenda: que tanto se usa su disponibilidad, que canales generan mas reservas, cuantos pacientes no asisten, que citas requieren seguimiento y que indicadores operativos pueden mejorar.
 
-## 3. Modelo de datos
+## 2. Problema que resuelve
 
-El modelo incluye las siguientes entidades:
+En una consulta psicologica pequena, muchas tareas importantes no son clinicas, sino administrativas. Por ejemplo, confirmar citas, revisar si hay espacio disponible, atender solicitudes por diferentes canales, evitar choques con Google Calendar y recordar a los pacientes sus sesiones. Cuando estas tareas se manejan manualmente, es facil que aparezcan errores, cancelaciones o tiempos muertos en la agenda.
 
-- `psychologists`: profesionales registrados en Serene.
-- `patients`: pacientes asociados a cada psicologo.
-- `availability_rules`: horarios de atencion semanales.
-- `calendar_events`: bloques ocupados importados desde Google Calendar.
-- `appointments`: citas confirmadas, completadas, canceladas o no-show.
-- `booking_requests`: solicitudes de reserva por web, WhatsApp, email o canal manual.
-- `follow_ups`: acciones de seguimiento clinico despues de una cita.
-- `integrations`: estado de Google Calendar, WhatsApp y email.
+Serene plantea una solucion a ese problema. La plataforma centraliza la informacion de psicologos, pacientes, disponibilidad, citas, solicitudes de reserva, integraciones y seguimientos. Con esa informacion organizada en una base de datos, el consultorio puede pasar de solo "guardar citas" a tomar decisiones: detectar horarios con alta demanda, medir la ocupacion semanal, revisar no-shows y entender que canal convierte mejor en citas reales.
+
+Este caso nos parecio adecuado para la actividad porque tiene datos transaccionales claros, relaciones entre entidades y consultas con sentido de negocio. No se trata solo de crear tablas, sino de construir una base viva y consultable.
+
+## 3. Por que elegimos Supabase
+
+Elegimos **Supabase PostgreSQL** porque Serene es un caso principalmente relacional. Un psicologo tiene muchos pacientes, muchas citas, varias reglas de disponibilidad y diferentes eventos de calendario. A su vez, una cita puede estar asociada a un paciente, a una solicitud de reserva y a un seguimiento posterior. Este tipo de estructura encaja muy bien con PostgreSQL, porque permite usar llaves primarias, llaves foraneas, restricciones, indices y consultas SQL avanzadas.
+
+Supabase tambien fue practico para el alcance de la actividad. Permite crear una base en la nube desde el navegador, ejecutar scripts SQL en el editor, revisar tablas en el panel y tomar capturas facilmente para la entrega. Ademas, al estar basado en PostgreSQL, permite hacer consultas con `joins`, agregaciones, CTEs y funciones de ventana.
+
+Comparamos Supabase con otras dos plataformas del catalogo:
+
+- **MongoDB Atlas:** es una buena opcion cuando los datos son muy flexibles o documentales. Sin embargo, para Serene era importante conservar relaciones fuertes entre psicologos, pacientes, citas y solicitudes. Por eso un modelo relacional era mas conveniente.
+- **BigQuery:** es excelente para analitica sobre grandes volumenes de datos. Aun asi, Serene necesitaba una base transaccional para registrar reservas y disponibilidad, no solo un almacen analitico. Para este caso, BigQuery hubiera sido mas grande de lo necesario.
+
+Por esas razones, Supabase fue una opcion equilibrada: facil de desplegar, permitida por el curso, relacional y suficientemente potente para responder las preguntas del proyecto.
+
+## 4. Modelo de datos
+
+El modelo de datos se organizo alrededor de ocho tablas principales:
+
+- `psychologists`: almacena los psicologos registrados, su correo, slug publico, zona horaria y estado de integracion.
+- `patients`: guarda los pacientes asociados a cada psicologo.
+- `availability_rules`: define los dias y horarios en los que cada psicologo atiende.
+- `calendar_events`: representa bloques ocupados importados desde Google Calendar.
+- `appointments`: registra las citas confirmadas, completadas, canceladas o marcadas como no-show.
+- `booking_requests`: guarda solicitudes de reserva que llegan por web, WhatsApp, email o canal manual.
+- `follow_ups`: contiene tareas de seguimiento despues de una cita.
+- `integrations`: resume el estado de integraciones como Google Calendar, WhatsApp y email.
+
+El modelo permite responder preguntas tanto operativas como analiticas. Por ejemplo, desde `appointments` se pueden calcular tasas de finalizacion o no-show. Desde `availability_rules` y `appointments` se puede medir ocupacion semanal. Desde `booking_requests` se puede analizar la conversion por canal.
+
+**Diagrama ER simple**
 
 ```mermaid
 erDiagram
@@ -40,47 +68,95 @@ erDiagram
   BOOKING_REQUESTS }o--o| APPOINTMENTS : convierte
 ```
 
-## 4. Datos cargados
+## 5. Base desplegada y datos cargados
 
-Se cargaron datos sinteticos para simular una operacion realista:
+La base fue creada en Supabase y cargada con datos sinteticos. Usamos datos ficticios porque el tema de salud mental puede involucrar informacion sensible, y no era necesario usar datos reales para demostrar el modelo.
+
+Los datos cargados fueron:
 
 - 8 psicologos.
 - 240 pacientes.
 - 42 reglas de disponibilidad.
-- 160 eventos ocupados de calendario.
+- 160 eventos de calendario.
 - 900 citas.
 - 320 solicitudes de reserva.
 - 180 seguimientos.
+- 8 registros de integracion.
 
-Los datos sinteticos permiten probar consultas de negocio sin usar informacion personal real de terceros, cumpliendo la regla de privacidad de la actividad.
+Estos datos permiten simular el funcionamiento de Serene durante varias semanas y ejecutar consultas de negocio con resultados variados.
 
-## 5. Consultas de negocio
+**Captura sugerida:** pegar aqui la captura del conteo de tablas en Supabase.
 
-El archivo `02_business_queries.sql` contiene consultas significativas. Algunas preguntas respondidas son:
+## 6. Consultas de negocio
 
-1. Que psicologos tienen mejores indicadores de finalizacion y no-show?
-2. Que porcentaje de ocupacion tiene cada agenda semanal?
-3. Que horarios y canales generan mas solicitudes?
-4. Que pacientes son recurrentes y tienen mejor NPS?
-5. Que canal convierte mejor solicitudes en citas reales?
-6. Que profesionales tienen mayor riesgo operativo por cancelaciones y no-shows?
-7. Existen conflictos entre citas y bloques ocupados de Google Calendar?
-8. Que seguimientos clinicos estan pendientes?
+El archivo `02_business_queries.sql` contiene las consultas usadas para analizar la base. A continuacion se resumen las mas importantes.
 
-Las consultas usan joins, agregaciones, CTEs, filtros, vistas y una window function (`dense_rank`) para ranking de riesgo.
+### 6.1 KPIs por psicologo
 
-## 6. Que fue practico y que costo
+Esta consulta compara a los psicologos segun total de citas, citas completadas, cancelaciones, no-shows, tasa de finalizacion y tasa de no-show. Es util porque permite ver rapidamente que profesionales tienen una agenda mas estable y cuales pueden necesitar apoyo operativo.
 
-Lo mas practico de Supabase fue poder crear una base PostgreSQL desde el navegador y ejecutar scripts SQL completos sin instalar infraestructura local. Tambien fue facil estructurar el modelo con llaves foraneas e indices, lo cual ayuda a explicar el diseno.
+**Interpretacion:** si un psicologo tiene muchas citas pero una tasa alta de no-show, Serene podria reforzar recordatorios o revisar los horarios mas conflictivos.
 
-Lo que mas costo fue traducir el modelo original de Convex, basado en documentos y funciones serverless, a un modelo relacional normalizado. Algunas propiedades que en Convex estaban dentro de documentos se separaron en tablas con relaciones claras. Tambien fue necesario decidir que datos eran transaccionales y que datos eran analiticos.
+**Captura sugerida:** pegar aqui la captura de la consulta de KPIs.
 
-## 7. Uso de IA generativa
+### 6.2 Ocupacion semanal de agenda
 
-Se uso IA generativa como apoyo para revisar el repositorio original de Serene, identificar entidades de negocio, proponer el modelo relacional en PostgreSQL, generar scripts SQL, crear datos sinteticos y redactar una primera version del informe. Las decisiones finales de plataforma, problema y enfoque fueron validadas segun los requisitos de la actividad.
+Esta consulta compara los minutos disponibles configurados por cada psicologo contra los minutos efectivamente reservados en una semana. Sirve para medir que tanto se esta usando la capacidad real de atencion.
 
-## 8. Conclusiones
+**Interpretacion:** una ocupacion baja puede indicar que hay demasiados espacios disponibles, poca demanda o problemas de visibilidad del enlace de reserva.
 
-Serene demuestra como una base de datos puede pasar de ser un almacenamiento tecnico a convertirse en una herramienta de decision. Con Supabase PostgreSQL, el proyecto permite almacenar la operacion de reservas de una consulta psicologica y responder preguntas utiles para mejorar la agenda, reducir no-shows y entender los canales de captacion.
+**Captura sugerida:** pegar aqui la captura de ocupacion semanal.
 
-La plataforma elegida fue adecuada porque combina facilidad de despliegue, modelo relacional fuerte y capacidad analitica suficiente para el alcance del curso. Al final, la base queda viva, consultable y conectada con preguntas reales de negocio.
+### 6.3 Horarios mas solicitados por canal
+
+Esta consulta muestra que horarios tienen mas solicitudes y desde que canal llegan. Esto ayuda a entender los momentos de mayor demanda y a ajustar disponibilidad o comunicacion.
+
+**Interpretacion:** si ciertos horarios concentran solicitudes aprobadas, el psicologo podria abrir mas espacios en esos bloques.
+
+**Captura sugerida:** pegar aqui la captura de horarios y canales.
+
+### 6.4 Conversion por canal
+
+Esta consulta analiza el embudo desde solicitud hasta cita aprobada, agrupando por canal. Permite comparar web, WhatsApp y canal manual.
+
+**Interpretacion:** si un canal tiene alta conversion, vale la pena fortalecerlo. Si otro tiene muchas solicitudes pero pocas citas aprobadas, puede haber friccion en el proceso.
+
+**Captura sugerida:** pegar aqui la captura de conversion por canal.
+
+### 6.5 Ranking de riesgo operativo
+
+Esta consulta usa una funcion de ventana (`dense_rank`) para ordenar a los psicologos segun una tasa de riesgo basada en cancelaciones y no-shows.
+
+**Interpretacion:** el ranking permite priorizar intervenciones. Por ejemplo, mejorar recordatorios, revisar horarios o hacer seguimiento a pacientes que faltan con frecuencia.
+
+**Captura sugerida:** pegar aqui la captura del ranking de riesgo.
+
+### 6.6 Seguimientos pendientes
+
+Esta consulta muestra tareas de seguimiento despues de citas completadas o no-shows. Incluye una prioridad calculada para identificar que acciones requieren atencion mas pronto.
+
+**Interpretacion:** ayuda a que el consultorio no pierda continuidad con los pacientes y mantenga un flujo de atencion mas ordenado.
+
+**Captura sugerida:** pegar aqui la captura de seguimientos pendientes.
+
+## 7. Que fue practico y que fue dificil
+
+Lo mas practico fue trabajar con Supabase desde el navegador. Crear el proyecto, ejecutar SQL y revisar los resultados fue directo. Tambien ayudo que PostgreSQL tenga una sintaxis conocida y permita construir consultas bastante expresivas sin herramientas adicionales.
+
+La parte mas dificil fue traducir el modelo original de la aplicacion a un diseno relacional. En Convex, varias entidades estaban pensadas como documentos y funciones. En PostgreSQL fue necesario separar mejor las responsabilidades: pacientes por un lado, citas por otro, disponibilidad, solicitudes e integraciones en tablas independientes. Ese proceso obligo a pensar con mas cuidado las relaciones, las restricciones y los tipos de datos.
+
+Otro reto fue preparar datos sinteticos que fueran suficientemente realistas. No bastaba con insertar filas vacias; los datos debian permitir preguntas utiles, como conversion, ocupacion y no-show.
+
+## 8. Uso de IA generativa
+
+Se uso IA generativa como apoyo durante el desarrollo del trabajo. La IA ayudo a revisar el repositorio original, identificar las entidades principales, proponer el modelo relacional, escribir los scripts SQL, generar datos sinteticos y redactar una primera version del informe.
+
+El uso de IA no reemplazo la toma de decisiones del grupo. La eleccion de Supabase, la validacion en la plataforma, las capturas y la interpretacion del caso se hicieron de acuerdo con los requisitos de la actividad.
+
+## 9. Conclusiones
+
+Este proyecto muestra como una base de datos puede convertirse en una herramienta de gestion para un problema real. En el caso de Serene, la base no solo guarda citas, sino que ayuda a entender la operacion de una consulta psicologica: ocupacion, demanda, conversion, seguimiento y riesgo operativo.
+
+Supabase PostgreSQL fue una buena eleccion porque permitio desplegar la base rapidamente y conservar un modelo relacional claro. Ademas, las consultas SQL permitieron responder preguntas de negocio sin depender de una interfaz grafica compleja.
+
+Como resultado final, la base quedo desplegada, cargada con datos sinteticos y lista para ser consultada durante la revision. El ejercicio tambien ayudo a conectar varios temas del curso: modelado de datos, integridad referencial, consultas analiticas, despliegue en la nube y criterio para elegir una plataforma segun el problema.
