@@ -1,0 +1,273 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [6 0 R 8 0 R 10 0 R 12 0 R 14 0 R 16 0 R] /Count 6 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+5 0 obj
+<< /Length 3890 >>
+stream
+BT /F2 18 Tf 1 0 0 1 54.00 779.89 Tm (Actividad Final DatAI) Tj ET
+BT /F2 18 Tf 1 0 0 1 54.00 731.89 Tm (Serene: base de datos para automatizar reservas en) Tj ET
+BT /F2 18 Tf 1 0 0 1 66.00 707.89 Tm (salud mental) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 667.89 Tm (Plataforma elegida: Supabase PostgreSQL) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 649.89 Tm (Repositorio: https://github.com/sebasgc4408/SereneBDDfinal) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 631.89 Tm (Proyecto en Supabase: pegar aqui el enlace o captura del panel) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 613.89 Tm (Integrantes: pegar aqui los nombres del equipo) Tj ET
+BT /F2 14 Tf 1 0 0 1 54.00 575.89 Tm (1. Introduccion) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 541.89 Tm (Para esta actividad trabajamos sobre Serene, una idea de aplicacion orientada a) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 526.89 Tm (psicologos independientes y pequenos consultorios de salud mental. El objetivo de Serene) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 511.89 Tm (es reducir la carga administrativa que aparece alrededor de las citas: coordinar) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 496.89 Tm (horarios, revisar disponibilidad, evitar cruces con el calendario, registrar pacientes,) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 481.89 Tm (enviar recordatorios y hacer seguimiento despues de una sesion.) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 455.89 Tm (Aunque la aplicacion original tenia una interfaz y un backend basado en Convex, para la) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 440.89 Tm (entrega final del curso decidimos aterrizar el proyecto en una plataforma del catalogo) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 425.89 Tm (visto en clase. Por eso montamos una version relacional de la base de datos en Supabase) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 410.89 Tm (PostgreSQL. La meta fue que la base quedara desplegada, con datos cargados y con) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 395.89 Tm (consultas capaces de responder preguntas reales del negocio.) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 369.89 Tm (En pocas palabras, el proyecto busca mostrar como una base de datos puede ayudar a que un) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 354.89 Tm (psicologo entienda mejor su agenda: que tanto se usa su disponibilidad, que canales) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 339.89 Tm (generan mas reservas, cuantos pacientes no asisten, que citas requieren seguimiento y que) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 324.89 Tm (indicadores operativos se pueden mejorar.) Tj ET
+BT /F2 14 Tf 1 0 0 1 54.00 286.89 Tm (2. Problema que resuelve) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 252.89 Tm (En una consulta psicologica pequena, muchas tareas importantes no son clinicas, sino) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 237.89 Tm (administrativas. Por ejemplo, confirmar citas, revisar si hay espacio disponible, atender) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 222.89 Tm (solicitudes por diferentes canales, evitar choques con Google Calendar y recordar a los) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 207.89 Tm (pacientes sus sesiones. Cuando estas tareas se manejan manualmente, es facil que) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 192.89 Tm (aparezcan errores, cancelaciones o tiempos muertos en la agenda.) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 166.89 Tm (Serene plantea una solucion a ese problema. La plataforma centraliza la informacion de) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 151.89 Tm (psicologos, pacientes, disponibilidad, citas, solicitudes de reserva, integraciones y) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 136.89 Tm (seguimientos. Con esa informacion organizada en una base de datos, el consultorio puede) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 121.89 Tm (pasar de solo "guardar citas" a tomar decisiones: detectar horarios con alta demanda,) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 106.89 Tm (medir la ocupacion semanal, revisar no-shows y entender que canal convierte mejor en) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 91.89 Tm (citas reales.) Tj ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 5 0 R >>
+endobj
+7 0 obj
+<< /Length 4510 >>
+stream
+BT /F1 10.5 Tf 1 0 0 1 54.00 787.89 Tm (Este caso nos parecio adecuado para la actividad porque tiene datos transaccionales) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 772.89 Tm (claros, relaciones entre entidades y consultas con sentido de negocio. No se trata solo) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 757.89 Tm (de crear tablas, sino de construir una base viva y consultable.) Tj ET
+BT /F2 14 Tf 1 0 0 1 54.00 719.89 Tm (3. Por que elegimos Supabase) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 685.89 Tm (Elegimos Supabase PostgreSQL porque Serene es un caso principalmente relacional. Un) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 670.89 Tm (psicologo tiene muchos pacientes, muchas citas, varias reglas de disponibilidad y) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 655.89 Tm (diferentes eventos de calendario. A su vez, una cita puede estar asociada a un paciente,) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 640.89 Tm (a una solicitud de reserva y a un seguimiento posterior. Este tipo de estructura encaja) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 625.89 Tm (muy bien con PostgreSQL, porque permite usar llaves primarias, llaves foraneas,) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 610.89 Tm (restricciones, indices y consultas SQL avanzadas.) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 584.89 Tm (Supabase tambien fue practico para el alcance de la actividad. Permite crear una base en) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 569.89 Tm (la nube desde el navegador, ejecutar scripts SQL en el editor, revisar tablas en el panel) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 554.89 Tm (y tomar capturas facilmente para la entrega. Ademas, al estar basado en PostgreSQL,) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 539.89 Tm (permite hacer consultas con joins, agregaciones, CTEs y funciones de ventana.) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 513.89 Tm (Comparamos Supabase con otras dos plataformas del catalogo:) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 64.00 486.89 Tm (- MongoDB Atlas: es una buena opcion cuando los datos son muy flexibles o documentales.) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 76.00 471.89 Tm (Sin embargo, para Serene era importante conservar relaciones fuertes entre psicologos,) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 76.00 456.89 Tm (pacientes, citas y solicitudes. Por eso un modelo relacional era mas conveniente.) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 64.00 439.89 Tm (- BigQuery: es excelente para analitica sobre grandes volumenes de datos. Aun asi,) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 76.00 424.89 Tm (Serene necesitaba una base transaccional para registrar reservas y disponibilidad, no) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 76.00 409.89 Tm (solo un almacen analitico. Para este caso, BigQuery hubiera sido mas grande de lo) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 76.00 394.89 Tm (necesario.) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 370.89 Tm (Por esas razones, Supabase fue una opcion equilibrada: facil de desplegar, permitida por) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 355.89 Tm (el curso, relacional y suficientemente potente para responder las preguntas del proyecto.) Tj ET
+BT /F2 14 Tf 1 0 0 1 54.00 317.89 Tm (4. Modelo de datos) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 283.89 Tm (El modelo de datos quedo organizado alrededor de ocho tablas principales. La idea fue) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 268.89 Tm (separar con claridad las partes del negocio: por un lado los psicologos y pacientes; por) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 253.89 Tm (otro, la disponibilidad, las citas, las solicitudes de reserva, los eventos de) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 238.89 Tm (calendario, las integraciones y los seguimientos.) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 212.89 Tm (Las tablas principales son:) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 64.00 185.89 Tm (- psychologists: almacena los psicologos registrados, su correo, nombre, enlace) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 76.00 170.89 Tm (publico, zona horaria y estado general de integracion.) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 64.00 153.89 Tm (- patients: guarda los pacientes asociados a cada psicologo. Incluye datos de contacto,) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 76.00 138.89 Tm (notas y un puntaje NPS opcional.) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 64.00 121.89 Tm (- appointments: registra las citas. Esta es una de las tablas centrales, porque permite) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 76.00 106.89 Tm (saber si una cita fue confirmada, completada, cancelada o marcada como no-show.) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 64.00 89.89 Tm (- availability_rules: define los dias, horas, duracion de sesion, descansos y modalidad) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 76.00 74.89 Tm (de atencion de cada psicologo.) Tj ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 7 0 R >>
+endobj
+9 0 obj
+<< /Length 3946 >>
+stream
+BT /F1 10.5 Tf 1 0 0 1 64.00 786.89 Tm (- calendar_events: representa bloques ocupados importados desde Google Calendar. Sirve) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 76.00 771.89 Tm (para evitar cruces con citas nuevas.) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 64.00 754.89 Tm (- booking_requests: guarda las solicitudes de reserva antes de convertirse en cita.) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 76.00 739.89 Tm (Permite analizar canales como web, WhatsApp o manual.) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 64.00 722.89 Tm (- follow_ups: registra acciones posteriores a una cita, como seguimientos clinicos o) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 76.00 707.89 Tm (contacto despues de una inasistencia.) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 64.00 690.89 Tm (- integrations: resume el estado de conexiones externas, como Google Calendar,) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 76.00 675.89 Tm (WhatsApp, email y Twilio.) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 651.89 Tm (El esquema usa llaves primarias tipo uuid y llaves foraneas para conectar las entidades.) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 636.89 Tm (Por ejemplo, patients, appointments, availability_rules, booking_requests,) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 621.89 Tm (calendar_events, follow_ups e integrations se relacionan con psychologists. Ademas,) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 606.89 Tm (appointments, booking_requests y follow_ups pueden relacionarse con patients. Esta) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 591.89 Tm (estructura hace posible consultar la operacion completa de un psicologo desde varios) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 576.89 Tm (angulos.) Tj ET
+BT /F2 10.5 Tf 1 0 0 1 54.00 546.89 Tm (Captura del esquema real en Supabase) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 521.89 Tm (Pegar aqui la captura del diagrama del schema generado en Supabase. En esa imagen se) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 506.89 Tm (deben ver las tablas psychologists, patients, appointments, availability_rules,) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 491.89 Tm (calendar_events, booking_requests, follow_ups e integrations, junto con sus relaciones.) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 465.89 Tm (El modelo permite responder preguntas tanto operativas como analiticas. Por ejemplo,) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 450.89 Tm (desde appointments se calculan tasas de finalizacion o no-show; desde availability_rules) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 435.89 Tm (y appointments se mide la ocupacion semanal; y desde booking_requests se analiza la) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 420.89 Tm (conversion por canal.) Tj ET
+BT /F2 14 Tf 1 0 0 1 54.00 382.89 Tm (5. Base desplegada y datos cargados) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 348.89 Tm (La base fue creada en Supabase y cargada con datos sinteticos. Usamos datos ficticios) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 333.89 Tm (porque el tema de salud mental puede involucrar informacion sensible, y no era necesario) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 318.89 Tm (usar datos reales para demostrar el modelo.) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 292.89 Tm (Los datos cargados fueron:) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 64.00 265.89 Tm (- 8 psicologos.) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 64.00 248.89 Tm (- 240 pacientes.) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 64.00 231.89 Tm (- 42 reglas de disponibilidad.) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 64.00 214.89 Tm (- 160 eventos de calendario.) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 64.00 197.89 Tm (- 900 citas.) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 64.00 180.89 Tm (- 320 solicitudes de reserva.) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 64.00 163.89 Tm (- 180 seguimientos.) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 64.00 146.89 Tm (- 8 registros de integracion.) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 122.89 Tm (Estos datos permiten simular el funcionamiento de Serene durante varias semanas y) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 107.89 Tm (ejecutar consultas de negocio con resultados variados.) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 81.89 Tm (Captura sugerida: pegar aqui la captura del conteo de tablas en Supabase.) Tj ET
+endstream
+endobj
+10 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 9 0 R >>
+endobj
+11 0 obj
+<< /Length 3346 >>
+stream
+BT /F2 14 Tf 1 0 0 1 54.00 775.89 Tm (6. Consultas de negocio) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 741.89 Tm (El archivo 02_business_queries.sql contiene las consultas usadas para analizar la base. A) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 726.89 Tm (continuacion se resumen las mas importantes.) Tj ET
+BT /F2 12 Tf 1 0 0 1 54.00 692.89 Tm (6.1 KPIs por psicologo) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 663.89 Tm (Esta consulta compara a los psicologos segun total de citas, citas completadas,) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 648.89 Tm (cancelaciones, no-shows, tasa de finalizacion y tasa de no-show. Es util porque permite) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 633.89 Tm (ver rapidamente que profesionales tienen una agenda mas estable y cuales pueden necesitar) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 618.89 Tm (apoyo operativo.) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 592.89 Tm (Interpretacion: si un psicologo tiene muchas citas pero una tasa alta de no-show, Serene) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 577.89 Tm (podria reforzar recordatorios o revisar los horarios mas conflictivos.) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 551.89 Tm (Captura sugerida: pegar aqui la captura de la consulta de KPIs.) Tj ET
+BT /F2 12 Tf 1 0 0 1 54.00 517.89 Tm (6.2 Ocupacion semanal de agenda) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 488.89 Tm (Esta consulta compara los minutos disponibles configurados por cada psicologo contra los) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 473.89 Tm (minutos efectivamente reservados en una semana. Sirve para medir que tanto se esta usando) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 458.89 Tm (la capacidad real de atencion.) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 432.89 Tm (Interpretacion: una ocupacion baja puede indicar que hay demasiados espacios disponibles,) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 417.89 Tm (poca demanda o problemas de visibilidad del enlace de reserva.) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 391.89 Tm (Captura sugerida: pegar aqui la captura de ocupacion semanal.) Tj ET
+BT /F2 12 Tf 1 0 0 1 54.00 357.89 Tm (6.3 Horarios mas solicitados por canal) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 328.89 Tm (Esta consulta muestra que horarios tienen mas solicitudes y desde que canal llegan. Esto) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 313.89 Tm (ayuda a entender los momentos de mayor demanda y a ajustar disponibilidad o comunicacion.) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 287.89 Tm (Interpretacion: si ciertos horarios concentran solicitudes aprobadas, el psicologo podria) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 272.89 Tm (abrir mas espacios en esos bloques.) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 246.89 Tm (Captura sugerida: pegar aqui la captura de horarios y canales.) Tj ET
+BT /F2 12 Tf 1 0 0 1 54.00 212.89 Tm (6.4 Conversion por canal) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 183.89 Tm (Esta consulta analiza el embudo desde solicitud hasta cita aprobada, agrupando por canal.) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 168.89 Tm (Permite comparar web, WhatsApp y canal manual.) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 142.89 Tm (Interpretacion: si un canal tiene alta conversion, vale la pena fortalecerlo. Si otro) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 127.89 Tm (tiene muchas solicitudes pero pocas citas aprobadas, puede haber friccion en el proceso.) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 101.89 Tm (Captura sugerida: pegar aqui la captura de conversion por canal.) Tj ET
+endstream
+endobj
+12 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 11 0 R >>
+endobj
+13 0 obj
+<< /Length 3563 >>
+stream
+BT /F2 12 Tf 1 0 0 1 54.00 779.89 Tm (6.5 Ranking de riesgo operativo) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 750.89 Tm (Esta consulta usa una funcion de ventana \(dense_rank\) para ordenar a los psicologos segun) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 735.89 Tm (una tasa de riesgo basada en cancelaciones y no-shows.) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 709.89 Tm (Interpretacion: el ranking permite priorizar intervenciones. Por ejemplo, mejorar) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 694.89 Tm (recordatorios, revisar horarios o hacer seguimiento a pacientes que faltan con) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 679.89 Tm (frecuencia.) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 653.89 Tm (Captura sugerida: pegar aqui la captura del ranking de riesgo.) Tj ET
+BT /F2 12 Tf 1 0 0 1 54.00 619.89 Tm (6.6 Seguimientos pendientes) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 590.89 Tm (Esta consulta muestra tareas de seguimiento despues de citas completadas o no-shows.) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 575.89 Tm (Incluye una prioridad calculada para identificar que acciones requieren atencion mas) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 560.89 Tm (pronto.) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 534.89 Tm (Interpretacion: ayuda a que el consultorio no pierda continuidad con los pacientes y) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 519.89 Tm (mantenga un flujo de atencion mas ordenado.) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 493.89 Tm (Captura sugerida: pegar aqui la captura de seguimientos pendientes.) Tj ET
+BT /F2 14 Tf 1 0 0 1 54.00 455.89 Tm (7. Que fue practico y que fue dificil) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 421.89 Tm (Lo mas practico fue trabajar con Supabase desde el navegador. Crear el proyecto, ejecutar) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 406.89 Tm (SQL y revisar los resultados fue directo. Tambien ayudo que PostgreSQL tenga una sintaxis) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 391.89 Tm (conocida y permita construir consultas bastante expresivas sin herramientas adicionales.) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 365.89 Tm (La parte mas dificil fue traducir el modelo original de la aplicacion a un diseno) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 350.89 Tm (relacional. En Convex, varias entidades estaban pensadas como documentos y funciones. En) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 335.89 Tm (PostgreSQL fue necesario separar mejor las responsabilidades: pacientes por un lado,) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 320.89 Tm (citas por otro, disponibilidad, solicitudes e integraciones en tablas independientes. Ese) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 305.89 Tm (proceso obligo a pensar con mas cuidado las relaciones, las restricciones y los tipos de) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 290.89 Tm (datos.) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 264.89 Tm (Otro reto fue preparar datos sinteticos que fueran suficientemente realistas. No bastaba) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 249.89 Tm (con insertar filas vacias; los datos debian permitir preguntas utiles, como conversion,) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 234.89 Tm (ocupacion y no-show.) Tj ET
+BT /F2 14 Tf 1 0 0 1 54.00 196.89 Tm (8. Uso de IA generativa) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 162.89 Tm (Se uso IA generativa como apoyo durante el desarrollo del trabajo. La IA ayudo a revisar) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 147.89 Tm (el repositorio original, identificar las entidades principales, proponer el modelo) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 132.89 Tm (relacional, escribir los scripts SQL, generar datos sinteticos y redactar una primera) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 117.89 Tm (version del informe.) Tj ET
+endstream
+endobj
+14 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 13 0 R >>
+endobj
+15 0 obj
+<< /Length 1812 >>
+stream
+BT /F1 10.5 Tf 1 0 0 1 54.00 787.89 Tm (El uso de IA no reemplazo la toma de decisiones del grupo. La eleccion de Supabase, la) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 772.89 Tm (validacion en la plataforma, las capturas y la interpretacion del caso se hicieron de) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 757.89 Tm (acuerdo con los requisitos de la actividad.) Tj ET
+BT /F2 14 Tf 1 0 0 1 54.00 719.89 Tm (9. Conclusiones) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 685.89 Tm (Este proyecto muestra como una base de datos puede convertirse en una herramienta de) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 670.89 Tm (gestion para un problema real. En el caso de Serene, la base no solo guarda citas, sino) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 655.89 Tm (que ayuda a entender la operacion de una consulta psicologica: ocupacion, demanda,) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 640.89 Tm (conversion, seguimiento y riesgo operativo.) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 614.89 Tm (Supabase PostgreSQL fue una buena eleccion porque permitio desplegar la base rapidamente) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 599.89 Tm (y conservar un modelo relacional claro. Ademas, las consultas SQL permitieron responder) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 584.89 Tm (preguntas de negocio sin depender de una interfaz grafica compleja.) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 558.89 Tm (Como resultado final, la base quedo desplegada, cargada con datos sinteticos y lista para) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 543.89 Tm (ser consultada durante la revision. El ejercicio tambien ayudo a conectar varios temas) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 528.89 Tm (del curso: modelado de datos, integridad referencial, consultas analiticas, despliegue en) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 66.00 513.89 Tm (la nube y criterio para elegir una plataforma segun el problema.) Tj ET
+endstream
+endobj
+16 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 15 0 R >>
+endobj
+xref
+0 17
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000155 00000 n 
+0000000225 00000 n 
+0000000300 00000 n 
+0000004242 00000 n 
+0000004384 00000 n 
+0000008946 00000 n 
+0000009088 00000 n 
+0000013086 00000 n 
+0000013229 00000 n 
+0000016628 00000 n 
+0000016772 00000 n 
+0000020388 00000 n 
+0000020532 00000 n 
+0000022397 00000 n 
+trailer
+<< /Size 17 /Root 1 0 R >>
+startxref
+22541
+%%EOF

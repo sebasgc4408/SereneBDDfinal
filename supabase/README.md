@@ -10,7 +10,7 @@ Esta carpeta contiene la migracion academica de Serene a Supabase/PostgreSQL par
 - `03_validation.sql`: valida conteos y KPIs basicos despues de cargar datos.
 - `migrations/`: copias versionadas del esquema y seed para repos conectados con Supabase.
 - `seed_parts/`: version dividida del seed para ejecutarlo por partes en el SQL Editor.
-- `informe_borrador.md`: base del informe de 3 a 5 paginas.
+- `../informe_proyecto.md`: informe final del proyecto.
 
 ## Orden de ejecucion
 
