@@ -9,6 +9,7 @@ Esta carpeta contiene la migracion academica de Serene a Supabase/PostgreSQL par
 - `02_business_queries.sql`: contiene consultas de negocio para la entrega.
 - `03_validation.sql`: valida conteos y KPIs basicos despues de cargar datos.
 - `migrations/`: copias versionadas del esquema y seed para repos conectados con Supabase.
+- `seed_parts/`: version dividida del seed para ejecutarlo por partes en el SQL Editor.
 - `informe_borrador.md`: base del informe de 3 a 5 paginas.
 
 ## Orden de ejecucion
@@ -19,6 +20,14 @@ Esta carpeta contiene la migracion academica de Serene a Supabase/PostgreSQL par
 4. Ejecutar `01_seed_data.sql`.
 5. Ejecutar `03_validation.sql` para verificar conteos.
 6. Ejecutar `02_business_queries.sql` para validar las preguntas de negocio.
+
+Si el `SQL Editor` ejecuta solo una seleccion parcial o da error de `syntax error at end of input`, usa los archivos divididos en este orden:
+
+1. `seed_parts/01_reset_core_data.sql`
+2. `seed_parts/02_availability_calendar.sql`
+3. `seed_parts/03_appointments.sql`
+4. `seed_parts/04_requests_followups.sql`
+5. `03_validation.sql`
 
 ## Si conectaste el repo con Supabase
 
