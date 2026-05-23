@@ -7,6 +7,8 @@ Esta carpeta contiene la migracion academica de Serene a Supabase/PostgreSQL par
 - `00_schema.sql`: crea el modelo relacional en PostgreSQL.
 - `01_seed_data.sql`: carga datos sinteticos de psicologos, pacientes, disponibilidad, citas, solicitudes, eventos y seguimientos.
 - `02_business_queries.sql`: contiene consultas de negocio para la entrega.
+- `03_validation.sql`: valida conteos y KPIs basicos despues de cargar datos.
+- `migrations/`: copias versionadas del esquema y seed para repos conectados con Supabase.
 - `informe_borrador.md`: base del informe de 3 a 5 paginas.
 
 ## Orden de ejecucion
@@ -15,7 +17,17 @@ Esta carpeta contiene la migracion academica de Serene a Supabase/PostgreSQL par
 2. Abrir `SQL Editor`.
 3. Ejecutar `00_schema.sql`.
 4. Ejecutar `01_seed_data.sql`.
-5. Ejecutar `02_business_queries.sql` para validar las preguntas de negocio.
+5. Ejecutar `03_validation.sql` para verificar conteos.
+6. Ejecutar `02_business_queries.sql` para validar las preguntas de negocio.
+
+## Si conectaste el repo con Supabase
+
+Supabase detecta migraciones versionadas dentro de `supabase/migrations/`. Esta carpeta ya contiene:
+
+- `20260523000100_serene_schema.sql`
+- `20260523000200_serene_seed_data.sql`
+
+Si el panel no aplica migraciones automaticamente, usa el `SQL Editor` y ejecuta los archivos manuales en el orden indicado arriba. Para la entrega academica, lo importante es que las tablas existan, los datos esten cargados y las consultas se puedan ejecutar durante la revision.
 
 ## Plataforma elegida
 
