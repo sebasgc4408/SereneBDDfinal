@@ -4,8 +4,8 @@
 
 **Plataforma elegida:** Supabase PostgreSQL  
 **Repositorio:** https://github.com/sebasgc4408/SereneBDDfinal  
-**Proyecto en Supabase:** pegar aqui el enlace o captura del panel  
-**Integrantes:** pegar aqui los nombres del equipo
+**Proyecto en Supabase:** https://supabase.com/dashboard/project/kkrugcnfqftprdifibup 
+**Integrantes:** Sebastián Guerrero y Mathias Velez
 
 ## 1. Introduccion
 
@@ -53,9 +53,9 @@ Las tablas principales son:
 
 El esquema usa llaves primarias tipo `uuid` y llaves foraneas para conectar las entidades. Por ejemplo, `patients`, `appointments`, `availability_rules`, `booking_requests`, `calendar_events`, `follow_ups` e `integrations` se relacionan con `psychologists`. Ademas, `appointments`, `booking_requests` y `follow_ups` pueden relacionarse con `patients`. Esta estructura hace posible consultar la operacion completa de un psicologo desde varios angulos.
 
-**Captura del esquema real en Supabase**
+<img width="1702" height="1180" alt="image" src="https://github.com/user-attachments/assets/ebacc694-0b97-41d7-a572-7683ebb6011c" />
 
-Pegar aqui la captura del diagrama del schema generado en Supabase. En esa imagen se deben ver las tablas `psychologists`, `patients`, `appointments`, `availability_rules`, `calendar_events`, `booking_requests`, `follow_ups` e `integrations`, junto con sus relaciones.
+En esa imagen se deben ver las tablas `psychologists`, `patients`, `appointments`, `availability_rules`, `calendar_events`, `booking_requests`, `follow_ups` e `integrations`, junto con sus relaciones.
 
 El modelo permite responder preguntas tanto operativas como analiticas. Por ejemplo, desde `appointments` se calculan tasas de finalizacion o no-show; desde `availability_rules` y `appointments` se mide la ocupacion semanal; y desde `booking_requests` se analiza la conversion por canal.
 
@@ -76,7 +76,8 @@ Los datos cargados fueron:
 
 Estos datos permiten simular el funcionamiento de Serene durante varias semanas y ejecutar consultas de negocio con resultados variados.
 
-**Captura sugerida:** pegar aqui la captura del conteo de tablas en Supabase.
+<img width="265" height="329" alt="image" src="https://github.com/user-attachments/assets/7a0613f3-ee0e-400f-9371-cd2fba2260e6" />
+
 
 ## 6. Consultas de negocio
 
@@ -88,7 +89,7 @@ Esta consulta compara a los psicologos segun total de citas, citas completadas, 
 
 **Interpretacion:** si un psicologo tiene muchas citas pero una tasa alta de no-show, Serene podria reforzar recordatorios o revisar los horarios mas conflictivos.
 
-**Captura sugerida:** pegar aqui la captura de la consulta de KPIs.
+<img width="397" height="222" alt="image" src="https://github.com/user-attachments/assets/1b029b4e-b384-4743-9b3d-ec124ce47557" />
 
 ### 6.2 Ocupacion semanal de agenda
 
@@ -96,7 +97,7 @@ Esta consulta compara los minutos disponibles configurados por cada psicologo co
 
 **Interpretacion:** una ocupacion baja puede indicar que hay demasiados espacios disponibles, poca demanda o problemas de visibilidad del enlace de reserva.
 
-**Captura sugerida:** pegar aqui la captura de ocupacion semanal.
+<img width="764" height="699" alt="image" src="https://github.com/user-attachments/assets/10db0385-ffcd-4332-ba85-8c176b520a74" />
 
 ### 6.3 Horarios mas solicitados por canal
 
@@ -104,7 +105,7 @@ Esta consulta muestra que horarios tienen mas solicitudes y desde que canal lleg
 
 **Interpretacion:** si ciertos horarios concentran solicitudes aprobadas, el psicologo podria abrir mas espacios en esos bloques.
 
-**Captura sugerida:** pegar aqui la captura de horarios y canales.
+<img width="766" height="228" alt="image" src="https://github.com/user-attachments/assets/d6acc8d4-109c-49bc-8043-23ec401aeb53" />
 
 ### 6.4 Conversion por canal
 
@@ -112,7 +113,7 @@ Esta consulta analiza el embudo desde solicitud hasta cita aprobada, agrupando p
 
 **Interpretacion:** si un canal tiene alta conversion, vale la pena fortalecerlo. Si otro tiene muchas solicitudes pero pocas citas aprobadas, puede haber friccion en el proceso.
 
-**Captura sugerida:** pegar aqui la captura de conversion por canal.
+<img width="740" height="396" alt="image" src="https://github.com/user-attachments/assets/8784f6ac-4b39-4c89-8253-631bb57cbf78" />
 
 ### 6.5 Ranking de riesgo operativo
 
@@ -120,7 +121,7 @@ Esta consulta usa una funcion de ventana (`dense_rank`) para ordenar a los psico
 
 **Interpretacion:** el ranking permite priorizar intervenciones. Por ejemplo, mejorar recordatorios, revisar horarios o hacer seguimiento a pacientes que faltan con frecuencia.
 
-**Captura sugerida:** pegar aqui la captura del ranking de riesgo.
+<img width="538" height="533" alt="image" src="https://github.com/user-attachments/assets/4551a019-e535-471a-be28-f03efd188594" />
 
 ### 6.6 Seguimientos pendientes
 
@@ -128,7 +129,7 @@ Esta consulta muestra tareas de seguimiento despues de citas completadas o no-sh
 
 **Interpretacion:** ayuda a que el consultorio no pierda continuidad con los pacientes y mantenga un flujo de atencion mas ordenado.
 
-**Captura sugerida:** pegar aqui la captura de seguimientos pendientes.
+<img width="450" height="372" alt="image" src="https://github.com/user-attachments/assets/71a00728-3637-48fb-88c2-129704a00f42" />
 
 ## 7. Que fue practico y que fue dificil
 
